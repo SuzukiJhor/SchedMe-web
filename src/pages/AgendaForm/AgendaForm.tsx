@@ -6,6 +6,7 @@ import {
   updateAgenda,
   deleteAgenda,
 } from "../../services/agendaService";
+import { Button } from "@/components/ui/button";
 
 export default function AgendaForm() {
   const { id } = useParams();
@@ -66,9 +67,7 @@ export default function AgendaForm() {
           className="w-full p-3 border rounded-xl"
         />
 
-        <button className="w-full bg-blue-600 text-white p-3 rounded-xl">
-          {isEdit ? "Salvar" : "Cadastrar"}
-        </button>
+        <Button className="w-full bg-blue-600 text-white p-3 rounded-xl">  {isEdit ? "Salvar" : "Cadastrar"} </Button>
       </form>
 
       {isEdit && (

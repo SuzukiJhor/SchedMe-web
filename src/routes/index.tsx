@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppLayout from "../components/layout/AppLayout";
 import Calendar from "@/pages/Calendar/Calendar";
-
 import Dashboard from "../pages/Dashboard/Dashboard";
 import AgendaForm from "../pages/AgendaForm/AgendaForm";
 
