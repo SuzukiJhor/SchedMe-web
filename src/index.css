@@ -23,10 +23,24 @@
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.21 0.006 285.885);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
+
+   /* Primary Colors */
+  --primary: 162 28 175;            /* #A21CAF */
+  --primary-foreground: 255 255 255;
+
+  /* Secondary */
+  --secondary: 192 132 252;         /* #C084FC */
+  --secondary-foreground: 31 41 55; /* #1F2937 */
+
+  /* Dark / Gray Base */
+  --gray-dark: 31 41 55;            /* #1F2937 */
+  --gray-light: 250 240 240;        /* #FAF0F0 */
+
+  /* Background / Surface */
+  --background: 250 240 240;        /* #FAF0F0 */
+  --foreground: 31 41 55;           /* #1F2937 */
+
+  
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(0.552 0.016 285.938);
   --accent: oklch(0.967 0.001 286.375);
@@ -121,6 +135,8 @@ button:focus-visible {
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-gray-dark: var(--gray-dark);
+  --color-gray-light: var(--gray-light);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);

@@ -52,15 +52,6 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </main>
-
-      {/* BOTTOM NAV */}
-      <nav className="h-16 bg-white border-t flex items-center justify-around shadow-sm">
-        <NavItem icon={Home} label="Início" active />
-        <NavItem icon={Calendar} label="Calendário" />
-        <NavItem icon={ClipboardList} label="Reservas" />
-        <NavItem icon={User} label="Perfil" />
-      </nav>
-
     </div>
   );
 }
