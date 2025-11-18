@@ -24,46 +24,14 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
 
-   /* Primary Colors */
-  --primary: 162 28 175;            /* #A21CAF */
-  --primary-foreground: 255 255 255;
-
-  /* Secondary */
-  --secondary: 192 132 252;         /* #C084FC */
-  --secondary-foreground: 31 41 55; /* #1F2937 */
-
-  /* Dark / Gray Base */
-  --gray-dark: 31 41 55;            /* #1F2937 */
-  --gray-light: 250 240 240;        /* #FAF0F0 */
-
-  /* Background / Surface */
-  --background: 250 240 240;        /* #FAF0F0 */
-  --foreground: 31 41 55;           /* #1F2937 */
-
-  
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.705 0.015 286.067);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-primary: oklch(0.21 0.006 285.885);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.705 0.015 286.067);
-
-  --orange: hsl(24.6 95% 53.1%);
+  --color-primary: #86198f;
+  --color-primary-dark: #5a078f;
+  --color-secondary: #1f2937;
+  --color-accent: #10b981;
+  --color-muted: #6b7280;
+  --color-background: #ffffff;
+  --color-surface: #f3f4f6;
+  --color-error: #ef4444;
 }
 
 a {
@@ -76,13 +44,9 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -202,80 +166,4 @@ button:focus-visible {
   body {
     @apply bg-background text-foreground;
   }
-}
-
-/* ===========================
-   FULLCALENDAR — TEMA ROXO PREMIUM
-   =========================== */
-
-/* ======= TOOLBAR ======= */
-.fc .fc-toolbar-title {
-  color: #86198f !important;
-  font-weight: 600;
-  letter-spacing: -0.5px;
-}
-
-.fc .fc-button {
-  background: white !important;
-  border: 1px solid #86198f !important;
-  color: #86198f !important;
-  border-radius: 8px !important;
-  padding: 6px 12px !important;
-  transition: 0.2s ease !important;
-}
-
-.fc .fc-button:hover {
-  background: #86198f !important;
-  color: white !important;
-}
-
-.fc .fc-button.fc-button-active {
-  background: #86198f !important;
-  color: white !important;
-}
-
-/* ======= HEADER DO CALENDÁRIO ======= */
-.fc .fc-col-header-cell {
-  background: #faf7ff;
-  padding: 10px 0;
-  color: #86198f;
-  font-weight: 500;
-  border-bottom: 1px solid #e7e7ee;
-}
-
-/* ======= GRID ======= */
-.fc .fc-daygrid-day {
-  background: white;
-  border: 1px solid #f0edf5 !important;
-}
-
-.fc .fc-daygrid-day:hover {
-  background: #faf5ff !important;
-}
-
-/* ======= DIA ATUAL ======= */
-.fc .fc-day-today {
-  background: #f7edff !important;
-  border: 2px solid #86198f !important;
-}
-
-/* ======= EVENTOS ======= */
-.fc .fc-event {
-  background: #86198f !important;
-  border: none !important;
-  color: white !important;
-  padding: 5px 8px !important;
-  border-radius: 6px !important;
-  font-size: 0.85rem !important;
-  box-shadow: 0 2px 4px rgba(114, 9, 183, 0.25);
-}
-
-.fc .fc-event:hover {
-  background: #5a078f !important;
-}
-
-/* ======= TIME GRID (horários) ======= */
-.fc .fc-timegrid-slot {
-  background: #fcfaff !important;
-  border-color: #f1e9f9 !important;
 }
