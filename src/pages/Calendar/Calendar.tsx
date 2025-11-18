@@ -1,118 +1,67 @@
-import { ChevronLeft, ChevronRight, Home, Calendar as CalendarLucide, ClipboardList, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import { Card } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function Calendar() {
-  const days = [
-    { day: 22, status: "Livre" },
-    { day: 23, status: "Livre" },
-    { day: 24, status: "Ocupado" },
-    { day: 25, status: "Livre" },
-    { day: 26, status: "Livre" },
-    { day: 27, status: "Ocupado" },
+  const [selectedDate, setSelectedDate] = useState<any>(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const initialEvents = [
+    {
+      title: "Corte de Cabelo - João",
+      date: new Date().toISOString().split("T")[0],
+    },
   ];
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <Card className="p-4">
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth"
+        headerToolbar={{
+          left: "title",
+          center: "prev,next",
+          right: "",
+          // right: "dayGridMonth,timeGridWeek,timeGridDay",
+        }}
+        height="auto"
+        locale="pt-br"
+        selectable={true}
+        editable={true}
+        events={initialEvents}
+        select={(info) => {
+          setSelectedDate(info.startStr);
+          setIsOpen(true);
+        }}
+        eventClick={(info) => {
+          alert(`Evento: ${info.event.title}`);
+        }}
+      />
 
-      {/* HEADER */}
-      <header className="flex items-center justify-between px-4 pt-10 pb-4 bg-white">
-        <h1 className="text-2xl font-semibold">Calendário</h1>
-      </header>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Novo Agendamento</DialogTitle>
+          </DialogHeader>
 
-      {/* SELETOR DE MÊS */}
-      <div className="flex justify-between items-center px-4 py-3 bg-white shadow-sm">
-        <Button variant="ghost" size="icon">
-          <ChevronLeft className="w-5 h-5" />
-        </Button>
+          <p className="text-sm text-muted-foreground">
+            Data selecionada: <strong>{selectedDate}</strong>
+          </p>
 
-        <p className="font-semibold text-lg">Abril 2024</p>
-
-        <Button variant="ghost" size="icon">
-          <ChevronRight className="w-5 h-5" />
-        </Button>
-      </div>
-
-      {/* GRID DO CALENDÁRIO */}
-      <main className="flex-1 px-4 py-4">
-        <div className="grid grid-cols-7 text-center font-medium text-gray-600 mb-2">
-          <span>Dom</span>
-          <span>Seg</span>
-          <span>Ter</span>
-          <span>Qua</span>
-          <span>Qui</span>
-          <span>Sex</span>
-          <span>Sáb</span>
-        </div>
-
-        {/* Grade dos dias */}
-        <div className="grid grid-cols-7 gap-2 text-center">
-
-          {/* Espaços em branco até o primeiro dia da semana */}
-          <span></span>
-          <span></span>
-          <span></span>
-
-          {days.map((d) => (
-            <DayCell key={d.day} day={d.day} status={d.status} />
-          ))}
-
-        </div>
-      </main>
-
-      {/* BOTTOM NAV */}
-      <nav className="h-16 bg-white border-t flex items-center justify-around">
-        <NavItem icon={Home} label="Início" />
-        <NavItem icon={CalendarLucide} label="Calendário" active />
-        <NavItem icon={ClipboardList} label="Reservas" />
-        <NavItem icon={User} label="Perfil" />
-      </nav>
-    </div>
-  );
-}
-
-/* CÉLULA DO CALENDÁRIO */
-function DayCell({ day, status }: { day: number; status: "Livre" | "Ocupado" }) {
-  const isToday = day === 24;
-
-  return (
-    <Card
-      className={`
-        rounded-xl p-2 text-sm cursor-pointer 
-        ${isToday ? "bg-blue-500 text-white" : "bg-white"}
-      `}
-    >
-      <p className="font-semibold">{day}</p>
-      {!isToday && (
-        <p
-          className={`text-xs ${
-            status === "Livre" ? "text-green-600" : "text-red-600"
-          }`}
-        >
-          {status}
-        </p>
-      )}
-      {isToday && <p className="text-white text-xs">Hoje</p>}
+          <div className="mt-4 flex justify-end">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="px-4 py-2 rounded-lg bg-primary text-white"
+            >
+              Fechar
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Card>
-  );
-}
-
-/* BOTTOM TAB */
-function NavItem({
-  icon: Icon,
-  label,
-  active,
-}: {
-  icon: any;
-  label: string;
-  active?: boolean;
-}) {
-  return (
-    <button className="flex flex-col items-center gap-1 text-xs">
-      <Icon className={`w-5 h-5 ${active ? "text-blue-500" : "text-gray-400"}`} />
-      <span className={active ? "text-blue-500 font-medium" : "text-gray-400"}>
-        {label}
-      </span>
-    </button>
   );
 }

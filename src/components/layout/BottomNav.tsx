@@ -21,7 +21,7 @@ export default function BottomNav() {
         <span className="text-xs">Calendário</span>
       </Link>
 
-      <Link to="/agenda" className={linkClass("/agenda")}>
+      <Link to="/customers" className={linkClass("/agenda")}>
         <Plus size={28} />
         <span className="text-xs">Novo</span>
       </Link>
