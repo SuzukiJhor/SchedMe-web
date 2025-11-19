@@ -1,75 +1,78 @@
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { User } from "lucide-react";
-
-interface Customer {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  status: "Ativo" | "Inativo";
-}
-
-const mockCustomers: Customer[] = [
-  { id: "C001", name: "João da Silva", email: "joao@email.com", phone: "11987654321", status: "Ativo" },
-  { id: "C002", name: "Maria Oliveira", email: "maria@email.com", phone: "11992345678", status: "Ativo" },
-  { id: "C003", name: "Carlos Eduardo", email: "carlos@email.com", phone: "21987894567", status: "Inativo" },
-  { id: "C004", name: "Ana Paula Ferreira", email: "ana@email.com", phone: "11977774444", status: "Ativo" },
-  { id: "C005", name: "Pedro Rocha", email: "pedro@email.com", phone: "31999112233", status: "Ativo" },
-];
+import { mockCustomers } from "@/mocks/users";
+import { Table, TableBody, TableHead, TableHeader, TableCell, TableRow } from "@/components/ui/table";
+import { Card } from "@/components/ui/card";
 
 export default function Customers() {
   return (
-    <Card className="p-4">
-      <div className="w-full max-w-3xl mx-auto p-4 space-y-4">
-      <h1 className="text-2xl font-bold text-gray-800">Clientes</h1>
+    <div>
+      
+      <Card className="p-4">
 
-      {/* Botão de adicionar cliente */}
-      <Button
-        className="w-full md:w-auto bg-[#86198f] text-white hover:bg-[#5a078f] rounded-2xl"
-        onClick={() => alert("Funcionalidade de adicionar cliente")}
-      >
-        + Novo Cliente
-      </Button>
+        <p className="text-2xl font-bold text-gray-800 mb-4">
+          Lista de clientes cadastrados
+        </p>
 
-      {/* Lista de clientes */}
-      <div className="space-y-3">
-        {mockCustomers.map((customer) => (
-          <Card
-            key={customer.id}
-            className="shadow-sm rounded-2xl border-none flex justify-between items-center p-4"
-          >
-            <div className="flex items-center gap-4">
-              <User className="w-8 h-8 text-[#86198f]" />
-              <div>
-                <p className="font-medium text-gray-700">{customer.name}</p>
-                <p className="text-sm text-gray-500">{customer.email}</p>
-                <p className="text-sm text-gray-500">{customer.phone}</p>
-              </div>
-            </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Cliente</TableHead>
+              <TableHead className="text-center">Ações</TableHead>
+            </TableRow>
+          </TableHeader>
 
-            <div className="flex items-center gap-2">
-              <Badge
-                variant={customer.status === "Ativo" ? "secondary" : "destructive"}
-                className="px-3 py-1 rounded-full"
-              >
-                {customer.status}
-              </Badge>
+          <TableBody>
+            {mockCustomers.map((customer) => (
+              <TableRow key={customer.id}>
+                
+                {/* Coluna do cliente */}
+                <TableCell>
+                  <div className="flex flex-col">
+                    <p className="font-medium text-gray-700">{customer.name}</p>
+                    <p className="text-sm text-gray-500">{customer.email}</p>
+                    <p className="text-sm text-gray-500">{customer.phone}</p>
+                  </div>
+                </TableCell>
 
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => alert(`Editar cliente ${customer.name}`)}
-              >
-                Editar
-              </Button>
-            </div>
-          </Card>
-        ))}
+                {/* Coluna dos botões */}
+                <TableCell>
+                  <div className="flex flex-col items-end gap-2">
+                    
+                    <Button
+                      className="w-24 rounded-xl border-gray-300 text-[#86198f] hover:bg-[#86198f] hover:text-white transition"
+                      size="sm"
+                      variant="outline"
+                    >
+                      Editar
+                    </Button>
+
+                    <Button
+                      className="w-24 rounded-xl bg-red-500 hover:bg-red-600 text-white transition"
+                      size="sm"
+                      variant="destructive"
+                    >
+                      Deletar
+                    </Button>
+
+                  </div>
+                </TableCell>
+
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+
+      </Card>
+
+      {/* BOTÃO FIXO NO RODAPÉ */}
+      <div className="fixed bottom-20 left-0 right-0 flex justify-center px-4 z-50">
+        <Button
+          style={{ backgroundColor: "var(--color-primary)",  color: "#ffffff",  }} 
+          className="w-full max-w-md rounded-2xl h-14 shadow-lg">
+          + Novo Cliente
+        </Button>
       </div>
+
     </div>
-    </Card>
-    
   );
 }

@@ -27,7 +27,7 @@ export default function BottomNav() {
       {/* NOVO */}
       <Link to="/customers" className="flex flex-col items-center justify-center">
         <Plus
-          color={isActive("/customers") ?"var(--color-primary)" : "var(--color-surface)"}
+          color={isActive("/customers") ? "var(--color-primary)" : "var(--color-surface)"}
           size={28}
         />
       </Link>

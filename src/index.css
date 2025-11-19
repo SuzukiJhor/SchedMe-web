@@ -167,3 +167,14 @@ button:focus-visible {
     @apply bg-background text-foreground;
   }
 }
+
+.fc-daygrid-day-number {
+  color: black; /* ou qualquer cor hexadecimal que você quiser */
+}
+
+.fc .fc-prev-button, 
+.fc .fc-next-button {
+  background-color: #1f2937 !important; /* sua cor primária */
+  border: none !important;
+  color: white !important;
+}

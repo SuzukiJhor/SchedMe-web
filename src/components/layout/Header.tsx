@@ -5,8 +5,9 @@ import { ArrowLeft } from "lucide-react";
 export default function Header() {
   const navigate = useNavigate();
   return (
-    <header className="flex items-center top-0 left-0 right-0 z-50">
+    <header className="flex pt-2 pl-2 items-center top-0 left-0 right-0 z-50">
        <Button
+          style={{ backgroundColor: "var(--color-secondary)",  color: "#ffffff",  }}
           variant="destructive"
           size="sm"
           className="flex items-center gap-2"

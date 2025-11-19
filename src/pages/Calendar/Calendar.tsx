@@ -8,6 +8,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import type { CalendarEvent } from "./type";
 
 export default function Calendar() {
   const [selectedDate, setSelectedDate] = useState<string>('2025-11-18');
@@ -15,9 +16,8 @@ export default function Calendar() {
   const [editingEvent, setEditingEvent] = useState<any | null>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [events, setEvents] = useState<any[]>(initialEvents);
+  const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
   const itemsPerPage = 3;
-  console.log(selectedDate);
   function handleEdit(event: any) {
     setEditingEvent(event);
     setIsEditOpen(true);
@@ -53,24 +53,24 @@ export default function Calendar() {
           initialView="dayGridMonth"
           headerToolbar={{
             left: "title",
-            center: "prev,next",
-            right: "",
-            // right: "dayGridMonth,timeGridWeek,timeGridDay",
+            right: "prev,next",
           }}
           height="auto"
           locale="pt-br"
           selectable={true}
           editable={true}
           events={events}
-          eventBorderColor="var(--color-accent)"
           dateClick= {(info) =>{ 
             setSelectedDate(info.dateStr);
             setCurrentPage(1);
           }}
+          slotLaneClassNames={"bg-red"}
+          allDayClassNames={"bg-gray-900"}
+          dayCellClassNames={"bg-gray-400"}
+          eventBackgroundColor="#86198f"
+          eventBorderColor="#86198f"
           eventClick={(info) => {
-            // setSelectedDate(info.startStr);
             console.log(info.event.title);
-            // alert(`Evento: ${info.event.title}`);
           } }
           />
   
@@ -78,11 +78,18 @@ export default function Calendar() {
         {selectedDate && reservationDay.length === 0 && (
           <><p className="text-sm text-muted-foreground mt-2">
             Nenhuma reserva encontrada para este dia.
-          </p><div className="flex justify-center gap-2">
-              <Button variant="destructive" onClick={() => console.log('nova reserva')}>
-                Nova Reserva
-              </Button>
-            </div></>
+          </p>
+
+          <div className="fixed bottom-20 left-0 right-0 flex justify-center px-4 z-50">
+        <Button
+          style={{ backgroundColor: "var(--color-primary)",  color: "#ffffff",  }} 
+          className="w-full max-w-md rounded-2xl h-14 shadow-lg"
+          onClick={() => setIsOpen(true)}  
+        >
+          + Nova Reserva
+        </Button>
+      </div>
+            </>
         )}
 
 
@@ -156,7 +163,7 @@ export default function Calendar() {
             <div className="mt-4 flex justify-end">
               <button
                 onClick={() => setIsOpen(false)}
-                className="px-4 py-2 rounded-lg bg-primary text-white"
+                className="px- rounded-lg bg-secondary text-white"
               >
                 Fechar
               </button>

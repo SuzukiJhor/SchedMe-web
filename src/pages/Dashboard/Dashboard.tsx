@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export default function Dashboard() {
   return (
-    <Card className="p-4 w-auto max-w-md space-y-6">
+    <Card className="p-4 space-y-6">
 
       <Button
         size="icon"
@@ -20,13 +20,13 @@ export default function Dashboard() {
           <h2 className="text-lg font-semibold">João da Silva</h2>
           <p className="text-gray-500 text-sm">24 de abril de 2024</p>
         </div>
-        <div className="bg-blue-500 p-4 rounded-2xl">
-          <Calendar className="w-8 h-8 text-white" />
+       <div className="bg-purple-600 p-4 rounded-2xl">
+          <Calendar style={{ color: "#ffff" }} className="w-8 h-8 text-purple-600" />
         </div>
       </CardContent>
 
       {/* BOTÃO — Nova Reserva */}
-      <Button className="w-full h-14 bg-blue-500 rounded-2xl text-white text-lg font-semibold hover:bg-blue-600">
+      <Button  style={{ backgroundColor: "var(--color-primary)",  color: "#ffffff",  }} className="w-full max-w-md rounded-2xl h-14 shadow-lg">
         + Nova Reserva
       </Button>
 
