@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 export default function Customers() {
   return (
     <div>
-      
+
       <Card className="p-4">
 
         <p className="text-2xl font-bold text-gray-800 mb-4">
@@ -24,7 +24,7 @@ export default function Customers() {
           <TableBody>
             {mockCustomers.map((customer) => (
               <TableRow key={customer.id}>
-                
+
                 {/* Coluna do cliente */}
                 <TableCell>
                   <div className="flex flex-col">
@@ -37,16 +37,17 @@ export default function Customers() {
                 {/* Coluna dos botões */}
                 <TableCell>
                   <div className="flex flex-col items-end gap-2">
-                    
+
                     <Button
-                      className="w-24 rounded-xl border-gray-300 text-[#86198f] hover:bg-[#86198f] hover:text-white transition"
+                      className="w-24 rounded-xl bg-red-500 hover:bg-red-600 text-white transition"
                       size="sm"
-                      variant="outline"
+                      variant="destructive"
                     >
                       Editar
                     </Button>
 
                     <Button
+                      style={{ backgroundColor: "var(--color-error)",  color: "#ffffff",  }} 
                       className="w-24 rounded-xl bg-red-500 hover:bg-red-600 text-white transition"
                       size="sm"
                       variant="destructive"
@@ -65,13 +66,13 @@ export default function Customers() {
       </Card>
 
       {/* BOTÃO FIXO NO RODAPÉ */}
-      <div className="fixed bottom-20 left-0 right-0 flex justify-center px-4 z-50">
+      {/* <div className="fixed bottom-20 left-0 right-0 flex justify-center px-4 z-50">
         <Button
-          style={{ backgroundColor: "var(--color-primary)",  color: "#ffffff",  }} 
+          style={{ backgroundColor: "var(--color-primary)", color: "#ffffff", }}
           className="w-full max-w-md rounded-2xl h-14 shadow-lg">
           + Novo Cliente
         </Button>
-      </div>
+      </div> */}
 
     </div>
   );

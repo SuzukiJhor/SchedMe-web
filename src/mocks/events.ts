@@ -10,7 +10,7 @@ export const initialEvents = [
     all_day: false,
     notes: "Reunião com cliente VIP.",
     date: "2025-11-19",
-    end_time: "2025-11-18 10:30",
+    end_time: "2025-11-19",
   },
   {
     id: "2",
@@ -20,7 +20,7 @@ export const initialEvents = [
     all_day: true,
     notes: "Uso do salão o dia todo.",
     date: "2025-11-20",
-    end_time: "2025-11-18 23:59",
+    end_time: "2025-11-20",
   },
   {
     id: "3",
@@ -30,7 +30,7 @@ export const initialEvents = [
     all_day: false,
     notes: "Treinamento interno de equipe.",
     date: "2025-11-21",
-    end_time: "2025-11-18 17:00",
+    end_time: "2025-11-21",
   },
   {
     id: "4",
@@ -40,7 +40,7 @@ export const initialEvents = [
     all_day: false,
     notes: "Sessão de fotos corporativas.",
     date: "2025-11-17",
-    end_time: "2025-11-18 12:00",
+    end_time: "2025-11-18",
   },
   {
     id: "5",
@@ -50,6 +50,6 @@ export const initialEvents = [
     all_day: false,
     notes: "Reserva para apresentação de projeto.",
     date: "2025-11-24",
-    end_time: "2025-11-18 17:30",
+    end_time: "2025-11-18",
   },    
 ];

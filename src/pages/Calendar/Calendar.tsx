@@ -7,8 +7,9 @@ import { initialEvents } from "@/mocks/events";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import type { CalendarEvent } from "./type";
+import DialogCalendar from "@/components/layout/DialogCalendar";
+import { ReservationPages } from "@/components/layout/ReservationPages";
 
 export default function Calendar() {
   const [selectedDate, setSelectedDate] = useState<string>('2025-11-18');
@@ -18,6 +19,7 @@ export default function Calendar() {
   const [currentPage, setCurrentPage] = useState(1);
   const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
   const itemsPerPage = 3;
+
   function handleEdit(event: any) {
     setEditingEvent(event);
     setIsEditOpen(true);
@@ -28,8 +30,8 @@ export default function Calendar() {
     setEvents((prev) => prev.filter((ev) => ev.id !== id));
   }
 
-  function salvarEdicao() {
-    console.log("Salvando edição:", editingEvent);
+  function salvarEdicao(event: any) {
+    console.log("Salvando edição:", event);
     setIsEditOpen(false);
   }
 
@@ -96,7 +98,7 @@ export default function Calendar() {
         {/* Listagem com paginação */}
         {reservationDay.length > 0 && (
           <>
-            <div className="mt-4 space-y-2">
+            <div className="mt-4 space-y-2 pb-16">
               {paginatedReservations.map((evento) => (
                 <Card
                   key={evento.id}
@@ -120,87 +122,40 @@ export default function Calendar() {
               ))}
             </div>
 
-            {/* Paginação */}
             {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-4 mt-4">
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage((prev) => prev - 1)}
-                >
-                  ◀ Anterior
-                </Button>
-
-                <span className="text-sm text-muted-foreground">
-                  Página {currentPage} de {totalPages}
-                </span>
-
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage((prev) => prev + 1)}
-                >
-                  Próxima ▶
-                </Button>
-              </div>
+              <ReservationPages
+                totalPages={totalPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
             )}
           </>
         )}
 
 
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Novo Agendamento</DialogTitle>
-            </DialogHeader>
+        <DialogCalendar
+          open={isOpen}
+          setOpen={setIsOpen}
+          selectedDate={selectedDate}
+          event={null}
+          callBack={(Event) => {
+            salvarEdicao(Event);
+            setIsOpen(false);
+          }}
+          textTitle="Nova Reserva"
+         />
 
-            <p className="text-sm text-muted-foreground text-red">
-              Data selecionada: <strong>{selectedDate}</strong>
-            </p>
-
-            <div className="mt-4 flex justify-end">
-              <button
-                onClick={() => setIsOpen(false)}
-                className="px- rounded-lg bg-secondary text-white"
-              >
-                Fechar
-              </button>
-            </div>
-          </DialogContent>
-        </Dialog>
-
-        {/* --- MODAL DE EDIÇÃO --- */}
-        <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Editar reserva</DialogTitle>
-            </DialogHeader>
-
-            {editingEvent && (
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium">Título</label>
-                  <input
-                    className="w-full p-2 border rounded-md"
-                    value={editingEvent.title}
-                    onChange={(e) => setEditingEvent({
-                      ...editingEvent,
-                      title: e.target.value,
-                    })} />
-                </div>
-
-                <div className="flex justify-end gap-2">
-                  <Button variant="destructive" onClick={() => setIsEditOpen(false)}>
-                    Cancelar
-                  </Button>
-                  <Button onClick={salvarEdicao}>Salvar</Button>
-                </div>
-              </div>
-            )}
-          </DialogContent>
-        </Dialog>
+        <DialogCalendar
+          open={isEditOpen}
+          setOpen={setIsEditOpen}
+          selectedDate={selectedDate}
+          event={editingEvent}
+          callBack={(Event) => {
+            salvarEdicao(Event);
+            setIsOpen(false);
+          }}
+          textTitle="Editar reserva"
+         />
       </Card></>
   );
 }
