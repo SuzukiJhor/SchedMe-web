@@ -1,26 +1,26 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import FullCalendar from "@fullcalendar/react";
-import { Button } from "@/components/ui/button";
 import { initialEvents } from "@/mocks/events";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import type { CalendarEvent } from "./type";
 import DialogCalendar from "@/components/layout/DialogCalendar";
-import { ReservationPages } from "@/components/layout/ReservationPages";
+import { getTodayISO } from "@/lib/utils";
+import { ReservationList } from "@/components/layout/ReservationList";
+import { ReservationEmpty } from "@/components/layout/ReservationEmpty";
 
 export default function Calendar() {
-  const [selectedDate, setSelectedDate] = useState<string>('2025-11-18');
+  const [selectedDate, setSelectedDate] = useState<string>(getTodayISO());
   const [isOpen, setIsOpen] = useState(false);
-  const [editingEvent, setEditingEvent] = useState<any | null>(null);
+  const [editingEvent, setEditingEvent] = useState<CalendarEvent | null>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
   const itemsPerPage = 3;
 
-  function handleEdit(event: any) {
+  function handleEdit(event: CalendarEvent) {
     setEditingEvent(event);
     setIsEditOpen(true);
   }
@@ -30,11 +30,10 @@ export default function Calendar() {
     setEvents((prev) => prev.filter((ev) => ev.id !== id));
   }
 
-  function salvarEdicao(event: any) {
+  function salvarEdicao(event: CalendarEvent) {
     console.log("Salvando edição:", event);
     setIsEditOpen(false);
   }
-
 
   const reservationDay = selectedDate
     ? events.filter((e) => e.date === selectedDate)
@@ -49,9 +48,9 @@ export default function Calendar() {
 
   return (
     <>
-   <Card className="p-4" >
+      <Card className="p-4" >
         <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]} 
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           headerToolbar={{
             left: "title",
@@ -62,7 +61,7 @@ export default function Calendar() {
           selectable={true}
           editable={true}
           events={events}
-          dateClick= {(info) =>{ 
+          dateClick={(info) => {
             setSelectedDate(info.dateStr);
             setCurrentPage(1);
           }}
@@ -73,66 +72,25 @@ export default function Calendar() {
           eventBorderColor="#86198f"
           eventClick={(info) => {
             console.log(info.event.title);
-          } }
-          />
-  
-        {/* Caso não existam eventos */}
+          }}
+        />
+
         {selectedDate && reservationDay.length === 0 && (
-          <><p className="text-sm text-muted-foreground mt-2">
-            Nenhuma reserva encontrada para este dia.
-          </p>
-
-          <div className="fixed bottom-20 left-0 right-0 flex justify-center px-4 z-50">
-        <Button
-          style={{ backgroundColor: "var(--color-primary)",  color: "#ffffff",  }} 
-          className="w-full max-w-md rounded-2xl h-14 shadow-lg"
-          onClick={() => setIsOpen(true)}  
-        >
-          + Nova Reserva
-        </Button>
-      </div>
-            </>
+          <ReservationEmpty
+            setIsOpen={setIsOpen}
+           />
         )}
 
-
-        {/* Listagem com paginação */}
-        {reservationDay.length > 0 && (
-          <>
-            <div className="mt-4 space-y-2 pb-16">
-              {paginatedReservations.map((evento) => (
-                <Card
-                  key={evento.id}
-                  className="p-3 flex items-center justify-between border-border"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium">{evento.title}</span>
-                    <Badge variant="secondary">Reservado</Badge>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <Button size="sm" variant="destructive" onClick={() => handleEdit(evento)}>
-                      Editar
-                    </Button>
-
-                    <Button size="sm" variant="destructive" onClick={() => handleDelete(evento.id)}>
-                      Deletar
-                    </Button>
-                  </div>
-                </Card>
-              ))}
-            </div>
-
-            {totalPages > 1 && (
-              <ReservationPages
-                totalPages={totalPages}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-              />
-            )}
-          </>
-        )}
-
-
+        <ReservationList 
+          reservationDay={reservationDay}
+          paginatedReservations={paginatedReservations}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
+      
         <DialogCalendar
           open={isOpen}
           setOpen={setIsOpen}
@@ -143,7 +101,7 @@ export default function Calendar() {
             setIsOpen(false);
           }}
           textTitle="Nova Reserva"
-         />
+        />
 
         <DialogCalendar
           open={isEditOpen}
@@ -155,7 +113,7 @@ export default function Calendar() {
             setIsOpen(false);
           }}
           textTitle="Editar reserva"
-         />
+        />
       </Card></>
   );
 }

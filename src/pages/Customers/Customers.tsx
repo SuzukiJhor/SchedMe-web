@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { mockCustomers } from "@/mocks/users";
+import { mockCustomers } from "@/mocks/customers";
 import { Table, TableBody, TableHead, TableHeader, TableCell, TableRow } from "@/components/ui/table";
 import { Card } from "@/components/ui/card";
 

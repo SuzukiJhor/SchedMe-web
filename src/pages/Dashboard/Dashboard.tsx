@@ -4,43 +4,52 @@ import { Calendar, Settings } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import type { CalendarEvent } from "../Calendar/type";
 import { initialEvents } from "@/mocks/events";
-import { formatDateBr, getTodayDateObj, toLocalDate } from "@/lib/utils";
+import { formatDateBr, getTodayDateObj, getTodayISO, toLocalDate } from "@/lib/utils";
+import DialogCalendar from "@/components/layout/DialogCalendar";
 
 export default function Dashboard() {
   const [events] = useState<CalendarEvent[]>(initialEvents);
+  const [isOpen, setIsOpen] = useState(false);
 
-function getNextEvent(events: CalendarEvent[]) {
-  const today = getTodayDateObj();
+  function getNextEvent(events: CalendarEvent[]) {
+    const today = getTodayDateObj();
 
-  return events
-    .filter(ev => toLocalDate(ev.date) >= today)
-    .sort((a, b) => toLocalDate(a.date).getTime() - toLocalDate(b.date).getTime())[0];
-}
-
-function getNextDates(events: any[], days = 5) {
-  const today = new Date();
-  const result = [];
-
-  for (let i = 1; i <= days; i++) {
-    const d = new Date(today);
-    d.setDate(today.getDate() + i);
-
-    const dateString = d.toISOString().split("T")[0];
-    const found = events.some(ev => ev.date === dateString);
-
-    result.push({
-      date: d.toLocaleDateString("pt-BR"),
-      status: found ? "Ocupado" : "Livre"
-    });
+    return events
+      .filter(ev => toLocalDate(ev.date) >= today)
+      .sort((a, b) => toLocalDate(a.date).getTime() - toLocalDate(b.date).getTime())[0];
   }
 
-  return result;
-}
+  function getNextDates(events: CalendarEvent[], days = 5) {
+    const today = new Date();
+    const result = [];
+
+    for (let i = 1; i <= days; i++) {
+      const d = new Date(today);
+      d.setDate(today.getDate() + i);
+
+      const localDate = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+      const found = events.some(ev => ev.date === localDate);
+
+      result.push({
+        date: d.toLocaleDateString("pt-BR"),
+        status: found ? "Ocupado" : "Livre"
+      });
+    }
+
+    return result;
+  }
+
+  function newReservation(event: any) {
+    console.log("Salvando edição:", event);
+    setIsOpen(false);
+  }
+
 
   const nextEvent = getNextEvent(events);
   const nextDates = getNextDates(events);
-  
- return (
+
+  return (
     <Card className="p-4 space-y-6">
 
       <Button
@@ -72,10 +81,10 @@ function getNextDates(events: any[], days = 5) {
         </div>
       </CardContent>
 
-      {/* BOTÃO — Nova Reserva */}
       <Button
         style={{ backgroundColor: "var(--color-primary)", color: "#ffffff" }}
         className="w-full max-w-md rounded-2xl h-14 shadow-lg"
+        onClick={() => setIsOpen(true)}  
       >
         + Nova Reserva
       </Button>
@@ -89,12 +98,24 @@ function getNextDates(events: any[], days = 5) {
         ))}
       </CardContent>
 
+      <DialogCalendar
+        open={isOpen}
+        setOpen={setIsOpen}
+        selectedDate={getTodayISO()}
+        event={null}
+        callBack={(Event) => {
+          newReservation(Event);
+          setIsOpen(false);
+        }}
+        textTitle="Nova Reserva"
+        />
+
     </Card>
   );
 }
 
 /* COMPONENTE DE LINHA DE DATAS */
-function Row({ date, status }: { date: string; status: "Livre" | "Ocupado" }) {
+function Row({ date, status }: { date: string; status: string }) {
   return (
     <div className="flex justify-between items-center">
       <span className="text-gray-700">{date}</span>

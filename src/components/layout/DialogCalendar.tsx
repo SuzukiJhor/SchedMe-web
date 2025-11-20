@@ -1,20 +1,15 @@
-import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { formatDateBr } from "@/lib/utils";
+import type { CalendarEvent } from "@/pages/Calendar/type";
 
 type DialogCalendarProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
   selectedDate: string;
-  event: {
-    id: string;
-    title: string;
-    date: string;
-    whatsapp: string;
-    all_day: boolean;
-    notes: string;
-  } | null;
-  callBack: (data: { id: string; title: string; date: string }) => void;
+  event: CalendarEvent | null;
+  callBack: (data: CalendarEvent) => void;
   textTitle: string;
 };
 
@@ -28,10 +23,9 @@ export default function DialogCalendar({
 }: DialogCalendarProps) {
 
   const [formData, setFormData] = useState({
-    id: "",
     title: "",
-    date: selectedDate,
     whatsapp: "",
+    date: selectedDate,
     all_day: false,
     notes: "",
   });
@@ -39,21 +33,19 @@ export default function DialogCalendar({
   useEffect(() => {
     if (event) {
       setFormData({
-        id: event.id,
         title: event.title,
-        date: event.date,
         whatsapp: event.whatsapp,
+        date: event.date,
         all_day: event.all_day,
         notes: event.notes,
       });
     } else {
       setFormData({
-        id: "",
         title: "",
         whatsapp: "",
+        date: selectedDate,
         all_day: true,
         notes: "",
-        date: selectedDate,
       });
     }
   }, [event, selectedDate]);
@@ -72,7 +64,7 @@ export default function DialogCalendar({
         </DialogHeader>
 
         <p className="text-sm text-muted-foreground">
-          Data selecionada: <strong>{selectedDate}</strong>
+          Data selecionada: <strong>{String(formatDateBr(selectedDate))}</strong>
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">

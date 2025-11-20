@@ -17,3 +17,8 @@ export function formatDateBr(dateString: string) {
     const [year, month, day] = dateString.split("-");
     return `${day}-${month}-${year}`;
 }
+export function getTodayISO() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return today.toISOString().split("T")[0];
+}
