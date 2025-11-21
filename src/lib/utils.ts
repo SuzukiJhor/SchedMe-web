@@ -9,13 +9,15 @@ export function getTodayDateObj() {
   const now = new Date();
   return new Date(now.getFullYear(), now.getMonth(), now.getDate());
 }
-export function toLocalDate(dateString: string) {
-  const [year, month, day] = dateString.split("-").map(Number);
+
+export function toLocalDate(str: string): Date {
+  const [year, month, day] = str.replace(/\//g, "-").split("-").map(Number);
   return new Date(year, month - 1, day);
 }
+
 export function formatDateBr(dateString: string) {
-    const [year, month, day] = dateString.split("-");
-    return `${day}-${month}-${year}`;
+  const [year, month, day] = dateString.split("-");
+  return `${day}-${month}-${year}`;
 }
 export function getTodayISO() {
   const today = new Date();

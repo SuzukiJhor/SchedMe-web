@@ -98,7 +98,6 @@ export default function Calendar() {
           event={null}
           callBack={(Event) => {
             salvarEdicao(Event);
-            setIsOpen(false);
           }}
           textTitle="Nova Reserva"
         />
@@ -110,7 +109,6 @@ export default function Calendar() {
           event={editingEvent}
           callBack={(Event) => {
             salvarEdicao(Event);
-            setIsOpen(false);
           }}
           textTitle="Editar reserva"
         />

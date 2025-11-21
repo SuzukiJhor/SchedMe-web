@@ -34,7 +34,7 @@ export const ReservationList = ({
                                 className="p-3 flex items-center justify-between border-border"
                             >
                                 <div className="flex items-center gap-2">
-                                    <span className="font-medium">{evento.title}</span>
+                                    <span className="font-medium">{evento.full_name}</span>
                                     <Badge variant="secondary">Reservado</Badge>
                                 </div>
 
@@ -60,8 +60,6 @@ export const ReservationList = ({
                     )}
                 </>
             )}
-
-            );
         </>
     );
 

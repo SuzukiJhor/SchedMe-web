@@ -1,11 +1,11 @@
 export type CalendarEvent = {
-  id?: string;
+  id: string;
   user_id?: string;
-  title: string;
+  full_name: string;
   whatsapp: string;
-  date: string;
   all_day: boolean;
   notes: string;
+  start_time: string;
   end_time?: string;
 };
 

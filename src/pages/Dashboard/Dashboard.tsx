@@ -1,22 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar, Settings } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import type { CalendarEvent } from "../Calendar/type";
-import { initialEvents } from "@/mocks/events";
 import { formatDateBr, getTodayDateObj, getTodayISO, toLocalDate } from "@/lib/utils";
 import DialogCalendar from "@/components/layout/DialogCalendar";
+import { fetchAllEvents } from "@/services/agendaService";
 
 export default function Dashboard() {
-  const [events] = useState<CalendarEvent[]>(initialEvents);
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
   function getNextEvent(events: CalendarEvent[]) {
     const today = getTodayDateObj();
-
     return events
-      .filter(ev => toLocalDate(ev.date) >= today)
-      .sort((a, b) => toLocalDate(a.date).getTime() - toLocalDate(b.date).getTime())[0];
+      .filter(ev => toLocalDate(ev.start_time) >= today)
+      .sort((a, b) => toLocalDate(a.start_time).getTime() - toLocalDate(b.start_time).getTime())[0];
   }
 
   function getNextDates(events: CalendarEvent[], days = 5) {
@@ -27,9 +26,14 @@ export default function Dashboard() {
       const d = new Date(today);
       d.setDate(today.getDate() + i);
 
-      const localDate = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-
-      const found = events.some(ev => ev.date === localDate);
+      const found = events.some(ev => {
+        const evDate = toLocalDate(ev.start_time);
+        return (
+          evDate.getFullYear() === d.getFullYear() &&
+          evDate.getMonth() === d.getMonth() &&
+          evDate.getDate() === d.getDate()
+        );
+      });
 
       result.push({
         date: d.toLocaleDateString("pt-BR"),
@@ -45,6 +49,14 @@ export default function Dashboard() {
     setIsOpen(false);
   }
 
+  useEffect(() => {
+    async function fetchEvents() {
+      const data = await fetchAllEvents();
+      setEvents(data);
+    }
+
+    fetchEvents();
+  }, []);
 
   const nextEvent = getNextEvent(events);
   const nextDates = getNextDates(events);
@@ -66,9 +78,9 @@ export default function Dashboard() {
 
           {nextEvent ? (
             <>
-              <h2 className="text-lg font-semibold">{nextEvent.title}</h2>
+              <h2 className="text-lg font-semibold">{nextEvent.full_name}</h2>
               <p className="text-gray-500 text-sm">
-                {formatDateBr(nextEvent.date)}
+                {formatDateBr(nextEvent.start_time)}
               </p>
             </>
           ) : (
@@ -84,7 +96,7 @@ export default function Dashboard() {
       <Button
         style={{ backgroundColor: "var(--color-primary)", color: "#ffffff" }}
         className="w-full max-w-md rounded-2xl h-14 shadow-lg"
-        onClick={() => setIsOpen(true)}  
+        onClick={() => setIsOpen(true)}
       >
         + Nova Reserva
       </Button>
@@ -108,8 +120,7 @@ export default function Dashboard() {
           setIsOpen(false);
         }}
         textTitle="Nova Reserva"
-        />
-
+      />
     </Card>
   );
 }
@@ -131,4 +142,3 @@ function Row({ date, status }: { date: string; status: string }) {
     </div>
   );
 }
-
