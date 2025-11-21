@@ -1,4 +1,4 @@
-import { Button } from "../ui/button";
+import ButtonPrimary from "./ButtonPrimary";
 
 type ReservationEmptyProps = {
   setIsOpen: (open: boolean) => void;
@@ -13,13 +13,10 @@ export const ReservationEmpty = ({
     </p>
 
       <div className="fixed bottom-20 left-0 right-0 flex justify-center px-4 z-50">
-        <Button
-          style={{ backgroundColor: "var(--color-primary)", color: "#ffffff", }}
-          className="w-full max-w-md rounded-2xl h-14 shadow-lg"
-          onClick={() => setIsOpen(true)}
-        >
-          + Nova Reserva
-        </Button>
+        <ButtonPrimary
+          title="+ Nova Reserva"
+          setIsOpen={setIsOpen}
+        />
       </div>
     </>
   );

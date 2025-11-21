@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { formatDateBr } from "@/lib/utils";
-import type { CalendarEvent } from "@/pages/Calendar/type";
+import type { EventData } from "@/pages/type";
 
 type DialogCalendarProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
   selectedDate: string;
-  event: CalendarEvent | null;
-  callBack: (data: CalendarEvent) => void;
+  event: EventData | null;
+  callBack: (data: EventData) => void;
   textTitle: string;
 };
 
@@ -21,11 +21,11 @@ export default function DialogCalendar({
   callBack,
   textTitle,
 }: DialogCalendarProps) {
-
   const [formData, setFormData] = useState({
-    title: "",
+    id: event ? event.id : "",
+    full_name: "",
     whatsapp: "",
-    date: selectedDate,
+    start_time: selectedDate,
     all_day: false,
     notes: "",
   });
@@ -33,17 +33,19 @@ export default function DialogCalendar({
   useEffect(() => {
     if (event) {
       setFormData({
-        title: event.title,
+        id: event.id,
+        full_name: event.full_name,
         whatsapp: event.whatsapp,
-        date: event.date,
+        start_time: event.start_time,
         all_day: event.all_day,
         notes: event.notes,
       });
     } else {
       setFormData({
-        title: "",
+        id: "",
+        full_name: "",
         whatsapp: "",
-        date: selectedDate,
+        start_time: selectedDate,
         all_day: true,
         notes: "",
       });
@@ -72,9 +74,9 @@ export default function DialogCalendar({
             <label className="text-sm font-medium">Nome</label>
             <input
               className="w-full p-2 border rounded-md"
-              value={formData.title}
+              value={formData.full_name}
               onChange={(e) =>
-                setFormData({ ...formData, title: e.target.value })
+                setFormData({ ...formData, full_name: e.target.value })
               }
               required
             />

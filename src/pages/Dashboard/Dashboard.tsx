@@ -1,24 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar, Settings } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import type { CalendarEvent } from "../Calendar/type";
 import { formatDateBr, getTodayDateObj, getTodayISO, toLocalDate } from "@/lib/utils";
 import DialogCalendar from "@/components/layout/DialogCalendar";
-import { fetchAllEvents } from "@/services/agendaService";
+import { useFetchEvents } from "@/hooks/useFetchAllEvents";
+import LoadingCard from "@/components/layout/ReservationLoading";
+import DashboardList from "@/components/layout/DashboardList";
+import ButtonPrimary from "@/components/layout/ButtonPrimary";
+import type { EventData } from "../type";
 
 export default function Dashboard() {
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const { events, loading } = useFetchEvents();
   const [isOpen, setIsOpen] = useState(false);
 
-  function getNextEvent(events: CalendarEvent[]) {
+  function getNextEvent(events: EventData[]) {
     const today = getTodayDateObj();
     return events
       .filter(ev => toLocalDate(ev.start_time) >= today)
       .sort((a, b) => toLocalDate(a.start_time).getTime() - toLocalDate(b.start_time).getTime())[0];
   }
 
-  function getNextDates(events: CalendarEvent[], days = 5) {
+  function getNextDates(events: EventData[], days = 5) {
     const today = new Date();
     const result = [];
 
@@ -48,15 +51,6 @@ export default function Dashboard() {
     console.log("Salvando edição:", event);
     setIsOpen(false);
   }
-
-  useEffect(() => {
-    async function fetchEvents() {
-      const data = await fetchAllEvents();
-      setEvents(data);
-    }
-
-    fetchEvents();
-  }, []);
 
   const nextEvent = getNextEvent(events);
   const nextDates = getNextDates(events);
@@ -93,22 +87,25 @@ export default function Dashboard() {
         </div>
       </CardContent>
 
-      <Button
-        style={{ backgroundColor: "var(--color-primary)", color: "#ffffff" }}
-        className="w-full max-w-md rounded-2xl h-14 shadow-lg"
-        onClick={() => setIsOpen(true)}
-      >
-        + Nova Reserva
-      </Button>
+      <ButtonPrimary
+        title="+ Nova Reserva"
+        setIsOpen={setIsOpen}
+      />
 
-      {/* LISTA — Próximas datas */}
-      <CardContent className="p-4 space-y-2">
-        <p className="font-medium text-gray-700 mb-2">Próximas datas</p>
 
-        {nextDates.map((d, idx) => (
-          <Row key={idx} date={d.date} status={d.status} />
-        ))}
-      </CardContent>
+      {loading ? (
+        <LoadingCard />
+      ) : (
+        <>
+          <CardContent className="p-4 space-y-2">
+            <p className="font-medium text-gray-700 mb-2">Próximas datas</p>
+
+            {nextDates.map((d, idx) => (
+              <DashboardList key={idx} date={d.date} status={d.status} />
+            ))}
+          </CardContent>
+        </>
+      )}
 
       <DialogCalendar
         open={isOpen}
@@ -122,23 +119,5 @@ export default function Dashboard() {
         textTitle="Nova Reserva"
       />
     </Card>
-  );
-}
-
-/* COMPONENTE DE LINHA DE DATAS */
-function Row({ date, status }: { date: string; status: string }) {
-  return (
-    <div className="flex justify-between items-center">
-      <span className="text-gray-700">{date}</span>
-      <span
-        className={
-          status === "Livre"
-            ? "text-green-600 font-medium"
-            : "text-red-600 font-medium"
-        }
-      >
-        {status}
-      </span>
-    </div>
   );
 }

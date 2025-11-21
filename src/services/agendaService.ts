@@ -26,13 +26,13 @@ export async function getAgenda(id) {
   return data;
 }
 
-export async function createAgenda(payload) {
-  const { data } = await api.post("/agendas", payload);
+export async function createEvent(payload: any) {
+  const { data } = await api.post("/events", payload);
   return data;
 }
 
-export async function updateAgenda(id, payload) {
-  const { data } = await api.put(`/agendas/${id}`, payload);
+export async function updateEvent(id : number , payload: any) {
+  const { data } = await api.put(`/events/${id}`, payload);
   return data;
 }
 

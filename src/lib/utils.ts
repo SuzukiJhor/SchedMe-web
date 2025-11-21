@@ -24,3 +24,16 @@ export function getTodayISO() {
   today.setHours(0, 0, 0, 0);
   return today.toISOString().split("T")[0];
 }
+
+
+export function normalizeEventDates(payload: any) {
+  const clean = { ...payload };
+
+  if (!clean.end_time && clean.start_time) {
+    const date = new Date(clean.start_time);
+    date.setDate(date.getDate() + 1);
+    clean.end_time = date.toISOString().split("T")[0];
+  }
+
+  return clean;
+}

@@ -1,16 +1,16 @@
-import type { CalendarEvent } from "@/pages/Calendar/type";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { ReservationPages } from "./ReservationPages";
 import { Badge } from "@/components/ui/badge";
+import type { EventData } from "@/pages/type";
 
 type ReservationListProps = {
-    reservationDay: CalendarEvent[];
-    paginatedReservations: CalendarEvent[];
+    reservationDay: EventData[];
+    paginatedReservations: EventData[];
     totalPages: number;
     currentPage: number;
     setCurrentPage: (page: number) => void;
-    handleEdit: (event: CalendarEvent) => void;
+    handleEdit: (event: EventData) => void;
     handleDelete: (id: string) => void;
 };
 
