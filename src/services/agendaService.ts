@@ -12,7 +12,6 @@ export async function login(email = "admin@teste.com", password = "senha123") {
 
 export async function fetchAllUsers() {
   const { data } = await api.get("/user");
-  console.log(data);
   return data;
 }
 

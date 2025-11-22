@@ -9,6 +9,7 @@ import DashboardList from "@/components/layout/DashboardList";
 import ButtonPrimary from "@/components/layout/ButtonPrimary";
 import type { EventData } from "../type";
 import { useEvents } from "@/hooks/useEvents";
+import { TodayEventAlert } from "@/components/layout/TodatEventAlert";
 
 export default function Dashboard() {
   const { events, addEvent, loading } = useEvents();
@@ -93,11 +94,11 @@ export default function Dashboard() {
         setIsOpen={setIsOpen}
       />
 
-
       {loading ? (
         <LoadingCard />
       ) : (
         <>
+          <TodayEventAlert events={events} />
           <DashboardList nextDates={nextDates} />
         </>
       )}

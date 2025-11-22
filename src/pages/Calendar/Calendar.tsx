@@ -33,7 +33,6 @@ export default function Calendar() {
   }
 
   async function submitSave(event: EventData) {
-    console.log("Salvando nova reserva:", event);
     await addEvent(event);
     setIsOpen(false);
   }
@@ -81,7 +80,6 @@ export default function Calendar() {
           editable={true}
           events={fullCalendarEvents}
           dateClick={(info) => {
-            console.log("Date clicked:", info.dateStr);
             setSelectedDate(info.dateStr);
             setCurrentPage(1);
           }}
