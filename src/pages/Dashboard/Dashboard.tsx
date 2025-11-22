@@ -48,7 +48,7 @@ export default function Dashboard() {
     return result;
   }
 
- async function newReservation(event: EventData) {
+  async function newReservation(event: EventData) {
     await addEvent(event);
     setIsOpen(false);
   }
@@ -98,13 +98,7 @@ export default function Dashboard() {
         <LoadingCard />
       ) : (
         <>
-          <CardContent className="p-4 space-y-2">
-            <p className="font-medium text-gray-700 mb-2">Próximas datas</p>
-
-            {nextDates.map((d, idx) => (
-              <DashboardList key={idx} date={d.date} status={d.status} />
-            ))}
-          </CardContent>
+          <DashboardList nextDates={nextDates} />
         </>
       )}
 
