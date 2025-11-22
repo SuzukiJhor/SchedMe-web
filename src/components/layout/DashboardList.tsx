@@ -19,7 +19,6 @@ export default function DashboardList({ nextDates }: { nextDates: { date: string
                         </span>
                     </div>
                 ))}
-
             </CardContent>
         </>
 

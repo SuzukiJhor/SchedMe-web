@@ -11,7 +11,7 @@ type ReservationListProps = {
     currentPage: number;
     setCurrentPage: (page: number) => void;
     handleEdit: (event: EventData) => void;
-    handleDelete: (id: string) => void;
+    handleDelete: (id: string | null) => void;
 };
 
 export const ReservationList = ({

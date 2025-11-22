@@ -12,9 +12,9 @@ import { useEvents } from "@/hooks/useEvents";
 import { TodayEventAlert } from "@/components/layout/TodatEventAlert";
 
 export default function Dashboard() {
-  const { events, addEvent, loading } = useEvents();
-
+  const { events, addEvent, editEvent, loading } = useEvents();
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenEventToday, setIsOpenEventToday] = useState(false);
 
   function getNextEvent(events: EventData[]) {
     const today = getTodayDateObj();
@@ -52,6 +52,12 @@ export default function Dashboard() {
   async function newReservation(event: EventData) {
     await addEvent(event);
     setIsOpen(false);
+  }
+
+  async function EditReservation(event: EventData) {
+     const { id } = event;
+    await editEvent(Number(id), event);
+    setIsOpenEventToday(false);
   }
 
   const nextEvent = getNextEvent(events);
@@ -98,10 +104,14 @@ export default function Dashboard() {
         <LoadingCard />
       ) : (
         <>
-          <TodayEventAlert events={events} />
+          <TodayEventAlert events={events} open={isOpenEventToday} setOpen={setIsOpenEventToday} callBack={(Event) => {
+          EditReservation(Event);
+        }}/>
           <DashboardList nextDates={nextDates} />
         </>
       )}
+
+
 
       <DialogCalendar
         open={isOpen}

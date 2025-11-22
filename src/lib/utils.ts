@@ -1,3 +1,4 @@
+import type { EventData } from "@/pages/type";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -26,7 +27,7 @@ export function getTodayISO() {
   return today.toISOString().split("T")[0];
 }
 
-export function normalizeEventDates(payload: any) {
+export function normalizeEventDates(payload: EventData) {
   const clean = { ...payload };
 
   if (!clean.end_time && clean.start_time) {
@@ -44,4 +45,23 @@ export function formatToISO(date: Date) {
   const day = String(date.getDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
+}
+
+export function getTodayEvent(events: EventData[]): EventData | null {
+  const today = getTodayDateObj();
+
+  for (const ev of events) {
+    const evDate = toLocalDate(ev.start_time);
+
+    if (
+      evDate.getFullYear() === today.getFullYear() &&
+      evDate.getMonth() === today.getMonth() &&
+      evDate.getDate() === today.getDate()
+    ) {
+      return ev;
+    }
+  }
+
+  return null;
+
 }

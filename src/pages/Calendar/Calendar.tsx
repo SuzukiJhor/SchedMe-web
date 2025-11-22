@@ -28,7 +28,8 @@ export default function Calendar() {
     setIsEditOpen(true);
   }
 
-  async function handleDelete(id: string) {
+  async function handleDelete(id: string | null) {
+    if (!id) return;
     await removeEvent(Number(id));
   }
 
