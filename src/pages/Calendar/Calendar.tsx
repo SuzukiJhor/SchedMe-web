@@ -5,19 +5,17 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import DialogCalendar from "@/components/layout/DialogCalendar";
-import { getTodayISO } from "@/lib/utils";
+import { formatToISO, getTodayISO } from "@/lib/utils";
 import { ReservationList } from "@/components/layout/ReservationList";
 import { ReservationEmpty } from "@/components/layout/ReservationEmpty";
-import { useFetchEvents } from "@/hooks/useFetchAllEvents";
 import type { EventData } from "../type";
 import LoadingCard from "@/components/layout/ReservationLoading";
-import { useUpdateEvent } from "@/hooks/useUpdateEvent";
-import { useCreateEvent } from "@/hooks/useCreateEvent";
+
+import { useEvents } from "@/hooks/useEvents";
 
 export default function Calendar() {
-  const { events, loading } = useFetchEvents();
-   const { updateEvent } = useUpdateEvent();
-   const { createEvent } = useCreateEvent();
+  const { events, addEvent, editEvent, removeEvent, loading } = useEvents();
+
   const [selectedDate, setSelectedDate] = useState<string>(getTodayISO());
   const [isOpen, setIsOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<EventData | null>(null);
@@ -30,28 +28,20 @@ export default function Calendar() {
     setIsEditOpen(true);
   }
 
-  function handleDelete(id: string) {
-    console.log(id);
+  async function handleDelete(id: string) {
+    await removeEvent(Number(id));
   }
 
   async function submitSave(event: EventData) {
+    console.log("Salvando nova reserva:", event);
+    await addEvent(event);
     setIsOpen(false);
-    try {
-      await createEvent(event);
-      console.log("Evento criado com sucesso!");
-    } catch {
-      console.log("Falha ao criar evento");
-    }
   }
 
   async function submitEdit(event: EventData) {
+    const { id } = event;
+    await editEvent(Number(id), event);
     setIsEditOpen(false);
-    try {
-      await updateEvent(event);
-      console.log("Evento criado com sucesso!");
-    } catch {
-      console.log("Falha ao criar evento");
-    }
   }
 
   const fullCalendarEvents = events.map(ev => ({
@@ -75,7 +65,6 @@ export default function Calendar() {
     currentPage * itemsPerPage
   );
 
-
   return (
     <>
       <Card className="p-4" >
@@ -92,6 +81,7 @@ export default function Calendar() {
           editable={true}
           events={fullCalendarEvents}
           dateClick={(info) => {
+            console.log("Date clicked:", info.dateStr);
             setSelectedDate(info.dateStr);
             setCurrentPage(1);
           }}
@@ -101,7 +91,12 @@ export default function Calendar() {
           eventBackgroundColor="#86198f"
           eventBorderColor="#86198f"
           eventClick={(info) => {
-            console.log(info.event.title);
+            const date = info.event.start;
+            if (date) {
+              const dateFormatted = formatToISO(date);
+              setSelectedDate(dateFormatted);
+            }
+
           }}
         />
 

@@ -4,14 +4,15 @@ import { Calendar, Settings } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDateBr, getTodayDateObj, getTodayISO, toLocalDate } from "@/lib/utils";
 import DialogCalendar from "@/components/layout/DialogCalendar";
-import { useFetchEvents } from "@/hooks/useFetchAllEvents";
 import LoadingCard from "@/components/layout/ReservationLoading";
 import DashboardList from "@/components/layout/DashboardList";
 import ButtonPrimary from "@/components/layout/ButtonPrimary";
 import type { EventData } from "../type";
+import { useEvents } from "@/hooks/useEvents";
 
 export default function Dashboard() {
-  const { events, loading } = useFetchEvents();
+  const { events, addEvent, loading } = useEvents();
+
   const [isOpen, setIsOpen] = useState(false);
 
   function getNextEvent(events: EventData[]) {
@@ -47,8 +48,8 @@ export default function Dashboard() {
     return result;
   }
 
-  function newReservation(event: any) {
-    console.log("Salvando edição:", event);
+ async function newReservation(event: EventData) {
+    await addEvent(event);
     setIsOpen(false);
   }
 

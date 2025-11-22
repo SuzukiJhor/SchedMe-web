@@ -36,7 +36,7 @@ export async function updateEvent(id : number , payload: any) {
   return data;
 }
 
-export async function deleteAgenda(id) {
-  const { data } = await api.delete(`/agendas/${id}`);
+export async function deleteEvent(id: any) {
+  const { data } = await api.delete(`/events/${id}`);
   return data;
 }

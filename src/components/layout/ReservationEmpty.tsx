@@ -8,7 +8,7 @@ export const ReservationEmpty = ({
   setIsOpen,
 }: ReservationEmptyProps) => {
   return (
-    <><p className="text-sm text-muted-foreground mt-2">
+    <><p className="text-sm text-muted-foreground mt-2 pb-30">
       Nenhuma reserva encontrada para este dia.
     </p>
 
