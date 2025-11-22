@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { formatDateBr } from "@/lib/utils";
 import type { EventData } from "@/pages/type";
+import { CalendarIcon } from "lucide-react";
 
 type DialogCalendarProps = {
   open: boolean;
@@ -70,6 +71,24 @@ export default function DialogCalendar({
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Escolher outra data</label>
+            <input
+              className="w-full p-2 border rounded-md"
+              type="date"
+              value={formData.start_time}
+              onChange={(e) =>
+                setFormData({ ...formData, start_time: e.target.value })
+              }
+              required
+
+            />
+            <CalendarIcon
+              className="absolute right-10 top-34 translate-y-1/2 text-purple-600 pointer-events-none"
+              size={20}
+            />
+          </div>
+
           <div className="space-y-2">
             <label className="text-sm font-medium">Nome</label>
             <input
