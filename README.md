@@ -1,1 +1,4 @@
 ### React + Vite
+
+- Autenticação
+    - Clerk
