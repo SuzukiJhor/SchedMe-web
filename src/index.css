@@ -169,13 +169,21 @@ button:focus-visible {
 }
 
 .fc-daygrid-day-number {
-  color: black; /* ou qualquer cor hexadecimal que você quiser */
+  color: black;
 }
 
 .fc .fc-prev-button, 
 .fc .fc-next-button {
-  background-color: #1f2937 !important; /* sua cor primária */
+  background-color: #1f2937 !important;
   border: none !important;
   color: white !important;
 }
 
+.fc-toolbar-chunk {
+  padding: 0.6em 0.2em;
+}
+
+.fc-toolbar-title {
+  font-size: 1.5em;
+  font-weight: 600;
+}

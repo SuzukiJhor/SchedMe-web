@@ -14,7 +14,6 @@ import { useEvents } from "@/hooks/useEvents";
 
 export default function Calendar() {
   const { events, addEvent, editEvent, removeEvent, loading } = useEvents();
-
   const [selectedDate, setSelectedDate] = useState<string>(getTodayISO());
   const [isOpen, setIsOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<EventData | null>(null);
@@ -96,6 +95,7 @@ export default function Calendar() {
             }
 
           }}
+
         />
 
         {loading ? (

@@ -12,3 +12,10 @@ export type EventData = {
 export type EventProps = {
   events: EventData[];
 };
+
+export type UserData = {
+  name: string;
+  email: string;
+  whatsapp: string;
+  clerk_user_id?: string;
+};

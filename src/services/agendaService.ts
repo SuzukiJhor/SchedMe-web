@@ -1,4 +1,4 @@
-import type { EventData } from "@/pages/type";
+import type { EventData, UserData } from "@/pages/type";
 import { api } from "./api";
 
 export async function fetchAllUsers() {
@@ -11,10 +11,6 @@ export async function fetchAllEvents() {
   return data;
 }
 
-export async function getAgenda(id: number) {
-  const { data } = await api.get(`/agendas/${id}`);
-  return data;
-}
 
 export async function createEvent(payload: EventData) {
   const { data } = await api.post("/events", payload);
@@ -28,5 +24,15 @@ export async function updateEvent(id : number , payload: EventData) {
 
 export async function deleteEvent(id: number) {
   const { data } = await api.delete(`/events/${id}`);
+  return data;
+}
+
+export async function firstOrNotLogin() {
+  const { data } = await api.get("/auth/check");
+  return data;
+}
+
+export async function registerUser(payload: UserData) {
+  const { data } = await api.post("/register-profile", payload);
   return data;
 }

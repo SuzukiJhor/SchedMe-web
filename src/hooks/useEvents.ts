@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { fetchAllEvents, createEvent, updateEvent, deleteEvent } from "@/services/agendaService";
-import type { EventData } from "@/pages/type";
+import { fetchAllEvents, createEvent, updateEvent, deleteEvent, registerUser } from "@/services/agendaService";
+import type { EventData, UserData } from "@/pages/type";
 import { useAxiosInterceptor } from "./useInterceptorClerkAuth";
 
 export function useEvents() {
@@ -35,6 +35,11 @@ export function useEvents() {
         await deleteEvent(id);
         setEvents(prev => prev.filter(ev => Number(ev.id) !== id));
     }
+    
+    async function registerUserWithClerId(payload: UserData) {
+        const data  = await registerUser(payload);
+        return data;
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -50,5 +55,6 @@ export function useEvents() {
         addEvent,
         editEvent,
         removeEvent,
+        registerUserWithClerId,
     };
 }

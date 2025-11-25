@@ -31,7 +31,7 @@ export function TodayEventAlert({ events, setOpen, open, callBack }: Props) {
                 <span>Hoje há um evento agendado</span>
             </div>
             <Button size="default" variant="destructive" onClick={() => setOpen(true)}>
-                Ver Evento
+                Ver Reserva de Hoje
             </Button>
 
             <DialogCalendar
