@@ -1,15 +1,11 @@
 import axios from "axios";
 
+const baseURLAPI = import.meta.env.VITE_URL_API_MARCALA;
+
+if (!baseURLAPI) {
+  throw new Error('Add your base url Key to the .env file')
+}
+
 export const api = axios.create({
-  baseURL: "http://localhost:8080/api",
-});
-
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
+  baseURL: baseURLAPI,
 });

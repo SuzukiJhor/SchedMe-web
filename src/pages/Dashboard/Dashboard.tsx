@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Calendar, Settings } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDateBr, getTodayDateObj, getTodayISO, toLocalDate } from "@/lib/utils";
 import DialogCalendar from "@/components/layout/DialogCalendar";
@@ -10,11 +9,23 @@ import ButtonPrimary from "@/components/layout/ButtonPrimary";
 import type { EventData } from "../type";
 import { useEvents } from "@/hooks/useEvents";
 import { TodayEventAlert } from "@/components/layout/TodatEventAlert";
+import { useAuth, useUser } from "@clerk/clerk-react";
 
 export default function Dashboard() {
-  const { events, addEvent, editEvent, loading } = useEvents();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEventToday, setIsOpenEventToday] = useState(false);
+  const { events, addEvent, editEvent, loading } = useEvents();
+  const { user } = useUser();
+  const { getToken } = useAuth();
+
+  async function obterToken() {
+    const token = await getToken();
+    console.log(token);
+    console.log(user);
+  }
+  obterToken()
+
+  const nameUser = user?.firstName ? user.firstName : "";
 
   function getNextEvent(events: EventData[]) {
     const today = getTodayDateObj();
@@ -55,7 +66,7 @@ export default function Dashboard() {
   }
 
   async function EditReservation(event: EventData) {
-     const { id } = event;
+    const { id } = event;
     await editEvent(Number(id), event);
     setIsOpenEventToday(false);
   }
@@ -65,16 +76,11 @@ export default function Dashboard() {
 
   return (
     <Card className="p-4 space-y-6">
+      <p className="text-xl font-bold text-gray-800">
+        Bem vindo {nameUser}!
+      </p>
 
-      <Button
-        size="icon"
-        variant="ghost"
-        className="bg-orange text-white hover:bg-orange/80 rounded-full"
-      >
-        <Settings className="w-5 h-5" />
-      </Button>
-
-      <CardContent className="p-4 flex items-center justify-between">
+      <CardContent className="flex items-center justify-between">
         <div>
           <p className="font-medium text-gray-700">Próxima reserva</p>
 
@@ -105,8 +111,8 @@ export default function Dashboard() {
       ) : (
         <>
           <TodayEventAlert events={events} open={isOpenEventToday} setOpen={setIsOpenEventToday} callBack={(Event) => {
-          EditReservation(Event);
-        }}/>
+            EditReservation(Event);
+          }} />
           <DashboardList nextDates={nextDates} />
         </>
       )}

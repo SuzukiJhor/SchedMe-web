@@ -6,14 +6,15 @@ import Customers from "../pages/Customers/Customers";
 
 export default function AppRoutes() {
   return (
-    <BrowserRouter>
-      <AppLayout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/calendar" element={<Calendar />} />
-          <Route path="/customers" element={<Customers />} />
-        </Routes>
-      </AppLayout>
-    </BrowserRouter>
+      <BrowserRouter>
+         <AppLayout>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/calendar" element={<Calendar />} />
+              <Route path="/customers" element={<Customers />} />
+            </Routes>
+          </AppLayout>
+
+      </BrowserRouter>
   );
 }

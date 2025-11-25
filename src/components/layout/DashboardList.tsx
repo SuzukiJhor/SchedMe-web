@@ -3,7 +3,7 @@ import { CardContent } from "../ui/card";
 export default function DashboardList({ nextDates }: { nextDates: { date: string; status: string }[] }) {
     return (
         <>
-            <CardContent className="p-4 space-y-2">
+            <CardContent className="p-4 mb-20 space-y-2">
                 <p className="font-medium text-gray-700 mb-2">Próximas datas</p>
                 {nextDates.map((d, idx) => (
                     <div className="flex justify-between items-center" key={idx}>

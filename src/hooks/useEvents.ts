@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { fetchAllEvents, createEvent, updateEvent, deleteEvent } from "@/services/agendaService";
 import type { EventData } from "@/pages/type";
+import { useAxiosInterceptor } from "./useInterceptorClerkAuth";
 
 export function useEvents() {
     const [events, setEvents] = useState<EventData[]>([]);
     const [loading, setLoading] = useState(true);
+
+    useAxiosInterceptor();
 
     async function loadEvents() {
         setLoading(true);
