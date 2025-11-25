@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Calendar } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDateBr, getTodayDateObj, getTodayISO, toLocalDate } from "@/lib/utils";
@@ -9,21 +9,13 @@ import ButtonPrimary from "@/components/layout/ButtonPrimary";
 import type { EventData } from "../type";
 import { useEvents } from "@/hooks/useEvents";
 import { TodayEventAlert } from "@/components/layout/TodatEventAlert";
-import { useAuth, useUser } from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
 
 export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEventToday, setIsOpenEventToday] = useState(false);
   const { events, addEvent, editEvent, loading } = useEvents();
   const { user } = useUser();
-  const { getToken } = useAuth();
-
-  async function obterToken() {
-    const token = await getToken();
-    console.log(token);
-    console.log(user);
-  }
-  obterToken()
 
   const nameUser = user?.firstName ? user.firstName : "";
 
