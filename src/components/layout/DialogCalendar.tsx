@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { formatDateBr } from "@/lib/utils";
@@ -22,6 +22,8 @@ export default function DialogCalendar({
   callBack,
   textTitle,
 }: DialogCalendarProps) {
+
+  const inputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     id: event ? event.id : "",
     full_name: "",
@@ -52,6 +54,10 @@ export default function DialogCalendar({
       });
     }
   }, [event, selectedDate]);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -92,6 +98,7 @@ export default function DialogCalendar({
           <div className="space-y-2">
             <label className="text-sm font-medium">Nome</label>
             <input
+              ref={inputRef}
               className="w-full p-2 border rounded-md"
               value={formData.full_name}
               onChange={(e) =>

@@ -19,7 +19,6 @@ export default function DialogViewEventToday({
     callBack,
 }: DialogCalendarProps) {
 
-    console.log(event);
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="[&>button]:hidden">

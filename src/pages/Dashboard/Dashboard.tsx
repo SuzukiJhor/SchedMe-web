@@ -10,6 +10,7 @@ import type { EventData } from "../type";
 import { useEvents } from "@/hooks/useEvents";
 import { TodayEventAlert } from "@/components/layout/TodatEventAlert";
 import { useUser } from "@clerk/clerk-react";
+import { fetchAllUsers } from "@/services/agendaService";
 
 export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
@@ -62,11 +63,18 @@ export default function Dashboard() {
     await editEvent(Number(id), event);
     setIsOpenEventToday(false);
   }
+  
+  async function getUser() {
+    const userData = await fetchAllUsers();
+    console.log(userData);
+  }
+
+  getUser();
 
   const nextEvent = getNextEvent(events);
   const nextDates = getNextDates(events);
   const eventScheduledToday = hasEventToday(events);
-  
+
   return (
     <Card className="p-4 space-y-6">
       <p className="text-xl font-bold text-gray-800">
