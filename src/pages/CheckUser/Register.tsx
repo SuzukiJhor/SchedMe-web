@@ -1,17 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCompanies } from "@/hooks/useCompanies";
-import { useEvents } from "@/hooks/useEvents";
 import { UserButton, useUser } from "@clerk/clerk-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import type { UserData } from "../type";
+import { useUsers } from "@/hooks/useUsers";
+import { firstOrNotLogin } from "@/services/agendaService";
 
 export function Register() {
     const { user } = useUser();
-    const { registerUserWithClerId } = useEvents();
+    const { registerUserWithClerId, user: authenticatedUserClerk } = useUsers();
     const { companies, loading } = useCompanies();
-    const navigate = useNavigate();
     const nameUser = user?.firstName ?? "";
     const emailUser = user?.primaryEmailAddress?.emailAddress ?? "";
     const clerkId = user?.id ?? "";
@@ -35,12 +34,18 @@ export function Register() {
         e.preventDefault();
         try {
             await registerUserWithClerId(formData);
-            setTimeout(() => navigate("/"), 300);
+            window.location.reload();
         } catch (error) {
             console.error("Erro ao registrar o usuário:", error);
         }
     }
 
+    useEffect(() => {
+        async function fetchUser() {
+            if (authenticatedUserClerk) await firstOrNotLogin();
+        }
+        fetchUser();
+    }, [authenticatedUserClerk]);
 
     return (
         <>
@@ -71,7 +76,7 @@ export function Register() {
                                         <label className="text-sm text-gray-700 mb-1">Selecione o nome da empresa</label>
                                         <select
                                             name="company_id"
-                                            value={(formData as UserData).company_id ?? ""}
+                                            value={(formData as UserData).company_id ?? companies[0]?.id}
                                             onChange={(e) =>
                                                 setFormData({ ...formData, company_id: e.target.value })
                                             }
