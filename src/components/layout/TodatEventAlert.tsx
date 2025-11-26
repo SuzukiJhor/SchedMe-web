@@ -1,5 +1,5 @@
 import { AlertCircle } from "lucide-react";
-import { toLocalDate, getTodayDateObj, getTodayISO, getTodayEvent, } from "@/lib/utils";
+import { getTodayISO, getTodayEvent, hasEventToday } from "@/lib/utils";
 import { Button } from "../ui/button";
 import DialogCalendar from "./DialogCalendar";
 import type { EventData } from "@/pages/type";
@@ -12,18 +12,9 @@ type Props = {
 };
 
 export function TodayEventAlert({ events, setOpen, open, callBack }: Props) {
-    const today = getTodayDateObj();
-    const hasEventToday = events.some(ev => {
-        const date = toLocalDate(ev.start_time);
-        return (
-            date.getFullYear() === today.getFullYear() &&
-            date.getMonth() === today.getMonth() &&
-            date.getDate() === today.getDate()
-        );
-    });
-
-    if (!hasEventToday) return null;
-
+    const eventScheduledToday = hasEventToday(events);
+    if (!eventScheduledToday) return null;
+    
     return (
         <>
             <div className="p-3 bg-green-100 border border-green-300 rounded-md flex items-center gap-2 text-green-700">

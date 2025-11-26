@@ -29,13 +29,11 @@ export function getTodayISO() {
 
 export function normalizeEventDates(payload: EventData) {
   const clean = { ...payload };
-
   if (!clean.end_time && clean.start_time) {
     const date = new Date(clean.start_time);
     date.setDate(date.getDate() + 1);
     clean.end_time = date.toISOString().split("T")[0];
   }
-
   return clean;
 }
 
@@ -43,16 +41,13 @@ export function formatToISO(date: Date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
-
   return `${year}-${month}-${day}`;
 }
 
 export function getTodayEvent(events: EventData[]): EventData | null {
   const today = getTodayDateObj();
-
   for (const ev of events) {
     const evDate = toLocalDate(ev.start_time);
-
     if (
       evDate.getFullYear() === today.getFullYear() &&
       evDate.getMonth() === today.getMonth() &&
@@ -61,7 +56,18 @@ export function getTodayEvent(events: EventData[]): EventData | null {
       return ev;
     }
   }
-
   return null;
-
 }
+
+export function hasEventToday(events): boolean {
+  const today = getTodayDateObj();
+  return events.some(ev => {
+    const evDate = toLocalDate(ev.start_time);
+    return (
+      evDate.getFullYear() === today.getFullYear() &&
+      evDate.getMonth() === today.getMonth() &&
+      evDate.getDate() === today.getDate()
+    );
+  });
+}
+

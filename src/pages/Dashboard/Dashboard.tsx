@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Calendar } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { formatDateBr, getTodayDateObj, getTodayISO, toLocalDate } from "@/lib/utils";
+import { formatDateBr, getTodayDateObj, getTodayISO, hasEventToday, toLocalDate } from "@/lib/utils";
 import DialogCalendar from "@/components/layout/DialogCalendar";
 import LoadingCard from "@/components/layout/ReservationLoading";
 import DashboardList from "@/components/layout/DashboardList";
@@ -65,7 +65,8 @@ export default function Dashboard() {
 
   const nextEvent = getNextEvent(events);
   const nextDates = getNextDates(events);
-
+  const eventScheduledToday = hasEventToday(events);
+  
   return (
     <Card className="p-4 space-y-6">
       <p className="text-xl font-bold text-gray-800">
@@ -93,10 +94,12 @@ export default function Dashboard() {
         </div>
       </CardContent>
 
-      <ButtonPrimary
-        title="+ Nova Reserva"
-        setIsOpen={setIsOpen}
-      />
+      {!eventScheduledToday && (
+        <ButtonPrimary
+          title="+ Nova Reserva"
+          setIsOpen={setIsOpen}
+        />
+      )}
 
       {loading ? (
         <LoadingCard />
