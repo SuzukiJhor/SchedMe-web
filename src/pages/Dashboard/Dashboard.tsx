@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Calendar } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDateBr, getTodayDateObj, getTodayISO, hasEventToday, toLocalDate } from "@/lib/utils";

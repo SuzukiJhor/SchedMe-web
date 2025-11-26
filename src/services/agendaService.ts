@@ -11,7 +11,6 @@ export async function fetchAllEvents() {
   return data;
 }
 
-
 export async function createEvent(payload: EventData) {
   const { data } = await api.post("/events", payload);
   return data;
@@ -34,5 +33,10 @@ export async function firstOrNotLogin() {
 
 export async function registerUser(payload: UserData) {
   const { data } = await api.post("/register-profile", payload);
+  return data;
+}
+
+export async function fetchCompanies() {
+  const { data } = await api.get("/companies");
   return data;
 }

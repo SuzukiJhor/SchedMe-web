@@ -1,13 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useCompanies } from "@/hooks/useCompanies";
 import { useEvents } from "@/hooks/useEvents";
 import { UserButton, useUser } from "@clerk/clerk-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import type { UserData } from "../type";
 
 export function Register() {
     const { user } = useUser();
     const { registerUserWithClerId } = useEvents();
+    const { companies, loading } = useCompanies();
     const navigate = useNavigate();
     const nameUser = user?.firstName ?? "";
     const emailUser = user?.primaryEmailAddress?.emailAddress ?? "";
@@ -17,7 +20,8 @@ export function Register() {
         name: nameUser,
         email: emailUser,
         whatsapp: "",
-        clerk_user_id: clerkId
+        clerk_user_id: clerkId,
+        company_id: "",
     });
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -58,6 +62,34 @@ export function Register() {
 
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-4">
+                            {/* Empresa */}
+                            <div className="flex flex-col">
+                                {loading ? (
+                                    <p className="text-gray-500 text-sm">Carregando empresas...</p>
+                                ) : (
+                                    <>
+                                        <label className="text-sm text-gray-700 mb-1">Selecione o nome da empresa</label>
+                                        <select
+                                            name="company_id"
+                                            value={(formData as UserData).company_id ?? ""}
+                                            onChange={(e) =>
+                                                setFormData({ ...formData, company_id: e.target.value })
+                                            }
+                                            className="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                                            required
+                                        >
+                                            <option value="">Selecione...</option>
+
+                                            {companies.map((c) => (
+                                                <option key={c.id} value={c.id}>
+                                                    {c.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </>
+
+                                )}
+                            </div>
 
                             {/* Nome */}
                             <div className="flex flex-col">
