@@ -88,3 +88,25 @@ export function maskPhone(value: string) {
     .replace(/(\d{5})(\d)/, "$1-$2")
     .slice(0, 15);
 }
+
+export const getStatusStyle = (status: string) => {
+  switch (status.toLowerCase()) {
+    case "confirmado":
+      return {
+        backgroundColor: "#D1FAE5", color: "#065F46",
+      };
+    case "pendente":
+      return {
+        backgroundColor: "#FEF3C7", color: "#92400E",
+      };
+    case "cancelado":
+      return {
+        backgroundColor: "#FEE2E2",
+        color: "#991B1B",
+      };
+    default:
+      return {
+        backgroundColor: "#E5E7EB", color: "#374151",
+      };
+  }
+};
