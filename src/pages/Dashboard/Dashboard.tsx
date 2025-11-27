@@ -79,13 +79,29 @@ export default function Dashboard() {
   const nextEvent = getNextEvent(events);
   const nextDates = getNextDates(events);
   const eventScheduledToday = hasEventToday(events);
-  ;
 
   return (
     <Card className="p-4 space-y-6">
       <p className="text-xl font-bold text-gray-800">
         Bem vindo {nameUser}!
       </p>
+
+      {!eventScheduledToday && (
+        <>
+          <h2 style={{
+            backgroundColor: "#F3E8FF",
+            color: "#ff4d4f",
+            padding: "8px 14px",
+            borderRadius: "8px",
+            fontWeight: "bold",
+          }} className="text-lg font-semibold">Hoje AINDA não tem reservas!</h2>
+          <ButtonPrimary
+            title="+ Nova Reserva"
+            setIsOpen={setIsOpen}
+          />
+        </>
+
+      )}
 
       <CardContent className="flex items-center justify-between">
         <div>
@@ -107,13 +123,6 @@ export default function Dashboard() {
           <Calendar style={{ color: "#ffff" }} className="w-8 h-8" />
         </div>
       </CardContent>
-
-      {!eventScheduledToday && (
-        <ButtonPrimary
-          title="+ Nova Reserva"
-          setIsOpen={setIsOpen}
-        />
-      )}
 
       {loading ? (
         <LoadingCard />

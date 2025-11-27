@@ -1,66 +1,91 @@
 import { Button } from "../ui/button";
-import { Card } from "../ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { ReservationPages } from "./ReservationPages";
-import { Badge } from "@/components/ui/badge";
 import type { EventData } from "@/pages/type";
 
 type ReservationListProps = {
-    reservationDay: EventData[];
-    paginatedReservations: EventData[];
-    totalPages: number;
-    currentPage: number;
-    setCurrentPage: (page: number) => void;
-    handleEdit: (event: EventData) => void;
-    handleDelete: (id: string | null) => void;
+  reservationDay: EventData[];
+  paginatedReservations: EventData[];
+  totalPages: number;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  handleEdit: (event: EventData) => void;
+  handleDelete: (id: string | null) => void;
 };
 
 export const ReservationList = ({
-    reservationDay,
-    paginatedReservations,
-    totalPages,
-    currentPage,
-    setCurrentPage,
-    handleEdit,
-    handleDelete,
+  reservationDay,
+  paginatedReservations,
+  totalPages,
+  currentPage,
+  setCurrentPage,
+  handleEdit,
+  handleDelete,
 }: ReservationListProps) => {
-    return (
-        <>
-            {reservationDay.length > 0 && (
-                <>
-                    <div className="mt-4 space-y-2 pb-16">
-                        {paginatedReservations.map((evento) => (
-                            <Card
-                                key={evento.id}
-                                className="p-3 flex items-center justify-between border-border"
-                            >
-                                <div className="flex items-center gap-2">
-                                    <span className="font-medium">{evento.full_name}</span>
-                                    <Badge variant="secondary">Reservado</Badge>
-                                </div>
+  return (
+    <>
+    <div className="pb-10">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Reservado</TableHead>
+            <TableHead className="text-center">Ações</TableHead>
+          </TableRow>
+        </TableHeader>
 
-                                <div className="flex items-center gap-2">
-                                    <Button size="sm" variant="destructive" onClick={() => handleEdit(evento)}>
-                                        Editar
-                                    </Button>
+        <TableBody>
+          {reservationDay.length > 0 &&
+            paginatedReservations.map((event) => (
+              <TableRow key={event.id}>
+                <TableCell>
+                  <div className="flex flex-col">
+                    <p className="font-medium text-gray-700">{event.full_name}</p>
+                    <p className="text-sm text-gray-500">{event.whatsapp}</p>
 
-                                    <Button size="sm" variant="destructive" onClick={() => handleDelete(evento.id)}>
-                                        Deletar
-                                    </Button>
-                                </div>
-                            </Card>
-                        ))}
-                    </div>
+                    {/* STATUS opcional: adicionar badge colorido depois */}
+                    <p className="text-sm text-gray-500">{event.status}</p>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex flex-col items-end gap-2">
 
-                    {totalPages > 1 && (
-                        <ReservationPages
-                            totalPages={totalPages}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
-                    )}
-                </>
-            )}
-        </>
-    );
+                    <Button
+                    style={{ backgroundColor: "var(--color-primary)",  color: "#ffffff",  }} 
+                      className="w-24 rounded-xl"
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => handleEdit(event)}
+                    >
+                      Editar
+                    </Button>
 
-}
+                    <Button
+                    style={{ backgroundColor: "var(--color-error)",  color: "#ffffff",  }} 
+                      className="w-24 rounded-xl"
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => handleDelete(event.id ?? null)}
+                    >
+                      Deletar
+                    </Button>
+
+                  </div>
+                </TableCell>
+
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+
+      {/* Paginação */}
+      {totalPages > 1 && (
+        <ReservationPages
+          totalPages={totalPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
+      </div>
+    </>
+  );
+};

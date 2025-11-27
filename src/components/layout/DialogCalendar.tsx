@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -23,7 +24,7 @@ export default function DialogCalendar({
   callBack,
   textTitle,
 }: DialogCalendarProps) {
-  console.log(event);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     id: event ? event.id : "",
