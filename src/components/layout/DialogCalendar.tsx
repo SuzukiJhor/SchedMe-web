@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { formatDateBr, maskPhone } from "@/lib/utils";
 import type { EventData } from "@/pages/type";
 import { CalendarIcon } from "lucide-react";
+import { StatusCheckbox } from "./StatusCheckbox";
 
 type DialogCalendarProps = {
   open: boolean;
@@ -22,12 +23,13 @@ export default function DialogCalendar({
   callBack,
   textTitle,
 }: DialogCalendarProps) {
-
+  console.log(event);
   const inputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     id: event ? event.id : "",
     full_name: "",
     whatsapp: "",
+    status: "pendente",
     start_time: selectedDate,
     all_day: false,
     notes: "",
@@ -37,6 +39,7 @@ export default function DialogCalendar({
     if (event) {
       setFormData({
         id: event.id,
+        status: event.status,
         full_name: event.full_name,
         whatsapp: event.whatsapp,
         start_time: event.start_time,
@@ -48,6 +51,7 @@ export default function DialogCalendar({
         id: "",
         full_name: "",
         whatsapp: "",
+        status: "pendente",
         start_time: selectedDate,
         all_day: true,
         notes: "",
@@ -137,6 +141,10 @@ export default function DialogCalendar({
             />
 
           </div>
+
+          <StatusCheckbox value={formData.status}  onChange={(e) => {
+                setFormData({ ...formData, status: e ?? "" });
+              }} />
 
           <div className="space-y-2">
             <label className="text-sm font-medium">Anotação</label>

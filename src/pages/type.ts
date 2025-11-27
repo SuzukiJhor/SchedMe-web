@@ -5,6 +5,7 @@ export type EventData = {
   whatsapp: string;
   all_day: boolean;
   notes: string;
+  status: string;
   start_time: string;
   end_time?: string;
 };
