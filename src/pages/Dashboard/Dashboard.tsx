@@ -28,7 +28,6 @@ export default function Dashboard() {
     });
     if (resultFilterByDay.length === 0) return;
     seteventClickedDay(resultFilterByDay[0]);
-    console.log(eventClickedDay);
     setisOpenday(true);
     return;
   }
@@ -133,7 +132,7 @@ export default function Dashboard() {
         selectedDate={eventClickedDay?.start_time || getTodayISO()}
         event={eventClickedDay || null}
         callBack={(Event) => {
-          console.log(Event)
+          EditReservation(Event)
         }}
         textTitle={`Próxima Reserva - ${eventClickedDay ? invertDate((eventClickedDay.start_time).split(" ")[0]) : ""}`}
       />

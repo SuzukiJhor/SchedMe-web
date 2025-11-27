@@ -5,7 +5,7 @@ import { Register } from "@/pages/CheckUser/Register";
 
 export default function RequireAuth({ children }: { children: React.ReactNode }) {
   const firstTime = useCheckFirstAccess();
-  console.log("firstTime", firstTime);
+  
   return (
     <>
       <SignedIn>

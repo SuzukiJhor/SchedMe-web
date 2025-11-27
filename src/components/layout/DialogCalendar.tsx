@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { formatDateBr } from "@/lib/utils";
+import { formatDateBr, maskPhone } from "@/lib/utils";
 import type { EventData } from "@/pages/type";
 import { CalendarIcon } from "lucide-react";
 
@@ -112,9 +112,10 @@ export default function DialogCalendar({
             <label className="text-sm font-medium">Celular</label>
             <input
               className="w-full p-2 border rounded-md"
+              placeholder="(xx) 9xxxx-xxxx"
               value={formData.whatsapp}
               onChange={(e) =>
-                setFormData({ ...formData, whatsapp: e.target.value })
+                setFormData({ ...formData, whatsapp: maskPhone(e.target.value) })
               }
               required
             />
