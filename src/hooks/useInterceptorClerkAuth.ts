@@ -10,7 +10,7 @@ export function useAxiosInterceptor() {
       async (config) => {
         const token = await getToken();
         if (token) config.headers.Authorization = `Bearer ${token}`;
-        console.log("[Axios Request Interceptor]", config.url);
+        // console.log("[Axios Request Interceptor]", config.url);
         return config;
       },
       (error) => {
@@ -21,7 +21,7 @@ export function useAxiosInterceptor() {
 
     const responseInterceptor = api.interceptors.response.use(
       (response) => {
-        console.log("[Axios Response Interceptor]", response.config.url, response.status);
+        // console.log("[Axios Response Interceptor]", response.config.url, response.status);
         return response;
       },
       (error) => {

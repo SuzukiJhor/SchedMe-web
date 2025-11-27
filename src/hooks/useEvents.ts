@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchAllEvents, createEvent, updateEvent, deleteEvent } from "@/services/agendaService";
+import { fetchAllEvents, createEvent, updateEvent, deleteEvent, fetchEventByDate } from "@/services/agendaService";
 import type { EventData } from "@/pages/type";
 import { useAxiosInterceptor } from "./useInterceptorClerkAuth";
 
@@ -36,6 +36,13 @@ export function useEvents() {
         setEvents(prev => prev.filter(ev => Number(ev.id) !== id));
     }
 
+    async function loadEventByDate(date: string) {
+        setLoading(true);
+        const data = await fetchEventByDate(date);
+        setLoading(false);
+        return data;
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             await loadEvents();
@@ -50,5 +57,6 @@ export function useEvents() {
         addEvent,
         editEvent,
         removeEvent,
+        loadEventByDate,
     };
 }

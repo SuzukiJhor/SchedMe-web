@@ -16,7 +16,7 @@ export async function createEvent(payload: EventData) {
   return data;
 }
 
-export async function updateEvent(id : number , payload: EventData) {
+export async function updateEvent(id: number, payload: EventData) {
   const { data } = await api.put(`/events/${id}`, payload);
   return data;
 }
@@ -38,5 +38,10 @@ export async function registerUser(payload: UserData) {
 
 export async function fetchCompanies() {
   const { data } = await api.get("/companies");
+  return data;
+}
+
+export async function fetchEventByDate(date: string) {
+  const { data } = await api.get(`/events/by-date/${date}`);
   return data;
 }

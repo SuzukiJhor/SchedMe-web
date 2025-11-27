@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Calendar } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { formatDateBr, getTodayDateObj, getTodayISO, hasEventToday, toLocalDate } from "@/lib/utils";
+import { formatDateBr, getTodayDateObj, getTodayISO, hasEventToday, invertDate, normalizeDate, toLocalDate } from "@/lib/utils";
 import DialogCalendar from "@/components/layout/DialogCalendar";
 import LoadingCard from "@/components/layout/ReservationLoading";
 import DashboardList from "@/components/layout/DashboardList";
@@ -10,15 +10,28 @@ import type { EventData } from "../type";
 import { useEvents } from "@/hooks/useEvents";
 import { TodayEventAlert } from "@/components/layout/TodatEventAlert";
 import { useUser } from "@clerk/clerk-react";
-import { fetchAllUsers } from "@/services/agendaService";
 
 export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenday, setisOpenday] = useState(false);
   const [isOpenEventToday, setIsOpenEventToday] = useState(false);
+  const [eventClickedDay, seteventClickedDay] = useState<EventData>();
   const { events, addEvent, editEvent, loading } = useEvents();
   const { user } = useUser();
 
   const nameUser = user?.firstName ? user.firstName : "";
+
+  async function selectClickedDay(day: string) {
+    const sanitizeDate = normalizeDate(day);
+    const resultFilterByDay = events.filter(event => {
+      return event.start_time === sanitizeDate;
+    });
+    if (resultFilterByDay.length === 0) return;
+    seteventClickedDay(resultFilterByDay[0]);
+    console.log(eventClickedDay);
+    setisOpenday(true);
+    return;
+  }
 
   function getNextEvent(events: EventData[]) {
     const today = getTodayDateObj();
@@ -63,17 +76,11 @@ export default function Dashboard() {
     await editEvent(Number(id), event);
     setIsOpenEventToday(false);
   }
-  
-  async function getUser() {
-    const userData = await fetchAllUsers();
-    console.log(userData);
-  }
-
-  getUser();
 
   const nextEvent = getNextEvent(events);
   const nextDates = getNextDates(events);
   const eventScheduledToday = hasEventToday(events);
+  ;
 
   return (
     <Card className="p-4 space-y-6">
@@ -116,9 +123,20 @@ export default function Dashboard() {
           <TodayEventAlert events={events} open={isOpenEventToday} setOpen={setIsOpenEventToday} callBack={(Event) => {
             EditReservation(Event);
           }} />
-          <DashboardList nextDates={nextDates} />
+          <DashboardList nextDates={nextDates} callBack={selectClickedDay} />
         </>
       )}
+
+      <DialogCalendar
+        open={isOpenday}
+        setOpen={setisOpenday}
+        selectedDate={eventClickedDay?.start_time || getTodayISO()}
+        event={eventClickedDay || null}
+        callBack={(Event) => {
+          console.log(Event)
+        }}
+        textTitle={`Próxima Reserva - ${eventClickedDay ? invertDate((eventClickedDay.start_time).split(" ")[0]) : ""}`}
+      />
 
       <DialogCalendar
         open={isOpen}
