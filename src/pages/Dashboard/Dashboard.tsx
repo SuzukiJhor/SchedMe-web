@@ -82,6 +82,7 @@ export default function Dashboard() {
 
   return (
     <Card className="p-4 space-y-6">
+     
       <p className="text-xl font-bold text-gray-800">
         Bem vindo {nameUser}!
       </p>

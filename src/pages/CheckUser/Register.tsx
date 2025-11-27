@@ -53,6 +53,11 @@ export function Register() {
                 <UserButton />
             </div>
 
+            <img
+                src="/images/logo-2.png"
+                alt="MarcaLa Logo"
+            />
+
             <div className="flex justify-center mt-6 px-4">
                 <Card className="p-6 w-full max-w-xl shadow-lg rounded-2xl space-y-6">
 
