@@ -6,11 +6,19 @@ import LoadingCard from "./ReservationLoading";
 
 export default function RequireAuth({ children }: { children: React.ReactNode }) {
   const firstTime = useCheckFirstAccess();
+
+  function loading() {
+    return <>
+    <div className="flex h-screen w-full items-center justify-center">
+      (<LoadingCard />)
+    </div>
+    </>;
+  }
   
   return (
     <>
       <SignedIn>
-        {firstTime === null && <LoadingCard />}
+        {firstTime === null && loading()}
         {firstTime === true && <Register />}
         {firstTime === false && children}
       </SignedIn>
