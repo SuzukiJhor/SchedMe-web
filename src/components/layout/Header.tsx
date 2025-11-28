@@ -21,10 +21,6 @@ export default function Header() {
       <SignedIn>
         <UserButton />
       </SignedIn>
-      {/* <SignedOut>
-        <SignInButton />
-      </SignedOut> */}
-
     </header>
   );
 }
