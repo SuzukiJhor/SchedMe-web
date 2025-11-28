@@ -64,9 +64,10 @@ export function getTodayEvent(events: EventData[]): EventData | null {
   return null;
 }
 
-export function hasEventToday(events: any): boolean {
+export function hasEventToday(events: unknown): boolean {
   const today = getTodayDateObj();
-  return events.some(ev => {
+  if (!Array.isArray(events)) return false;
+  return events.some((ev: { start_time: string; }) => {
     const evDate = toLocalDate(ev.start_time);
     return (
       evDate.getFullYear() === today.getFullYear() &&
