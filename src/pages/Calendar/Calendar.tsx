@@ -5,7 +5,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import DialogCalendar from "@/components/layout/DialogCalendar";
-import { formatToISO, getTodayISO } from "@/lib/utils";
+import { formatToISO, getTodayISO, invertDate } from "@/lib/utils";
 import { ReservationList } from "@/components/layout/ReservationList";
 import { ReservationEmpty } from "@/components/layout/ReservationEmpty";
 import type { EventData } from "../type";
@@ -96,6 +96,8 @@ export default function Calendar() {
 
           }}
         />
+
+        <p className="text-xl font-bold text-gray-800"> Data {invertDate(selectedDate)}</p>
 
         {loading ? (
           <LoadingCard />
