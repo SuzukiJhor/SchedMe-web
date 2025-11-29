@@ -3,6 +3,7 @@ import { getTodayISO, getTodayEvent, hasEventToday } from "@/lib/utils";
 import { Button } from "../ui/button";
 import DialogCalendar from "./DialogCalendar";
 import type { EventData } from "@/pages/type";
+import { TitleDescriptionGreen } from "./TitledescriptionGreen";
 
 type Props = {
     events: EventData[];
@@ -14,13 +15,10 @@ type Props = {
 export function TodayEventAlert({ events, setOpen, open, callBack }: Props) {
     const eventScheduledToday = hasEventToday(events);
     if (!eventScheduledToday) return null;
-    
+
     return (
         <>
-            <div className="p-3 bg-green-100 border border-green-300 rounded-md flex items-center gap-2 text-green-700">
-                <AlertCircle className="w-5 h-5" />
-                <span>Hoje há um evento agendado</span>
-            </div>
+            <TitleDescriptionGreen title={"Hoje há um evento agendado"} />
             <Button size="default" variant="destructive" onClick={() => setOpen(true)}>
                 Ver Reserva de Hoje
             </Button>

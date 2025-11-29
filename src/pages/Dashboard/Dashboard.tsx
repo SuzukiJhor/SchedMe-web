@@ -10,6 +10,7 @@ import type { EventData } from "../type";
 import { useEvents } from "@/hooks/useEvents";
 import { TodayEventAlert } from "@/components/layout/TodatEventAlert";
 import { useUser } from "@clerk/clerk-react";
+import { TitleDescriptionRed } from "@/components/layout/TitleDescriptionRed";
 
 export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
@@ -89,13 +90,7 @@ export default function Dashboard() {
 
       {!eventScheduledToday && (
         <>
-          <h2 style={{
-            backgroundColor: "#F3E8FF",
-            color: "#ff4d4f",
-            padding: "8px 14px",
-            borderRadius: "8px",
-            fontWeight: "bold",
-          }} className="text-lg font-semibold">Hoje AINDA não tem reservas!</h2>
+        <TitleDescriptionRed title={"Hoje AINDA não tem reservas!"}/>
           <ButtonPrimary
             title="+ Nova Reserva"
             setIsOpen={setIsOpen}

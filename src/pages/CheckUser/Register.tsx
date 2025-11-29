@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import type { UserData } from "../type";
 import { useUsers } from "@/hooks/useUsers";
 import { firstOrNotLogin } from "@/services/agendaService";
+import { maskPhone } from "@/lib/utils";
 
 export function Register() {
     const { user } = useUser();
@@ -131,7 +132,12 @@ export function Register() {
                                     name="whatsapp"
                                     placeholder="(xx) 9xxxx-xxxx"
                                     value={formData.whatsapp}
-                                    onChange={handleChange}
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            whatsapp: maskPhone(e.target.value),
+                                        })
+                                    }
                                     className="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
                                 />
                             </div>

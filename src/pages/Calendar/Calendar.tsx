@@ -11,6 +11,8 @@ import { ReservationEmpty } from "@/components/layout/ReservationEmpty";
 import type { EventData } from "../type";
 import LoadingCard from "@/components/layout/ReservationLoading";
 import { useEvents } from "@/hooks/useEvents";
+import { TitleDescriptionGreen } from "@/components/layout/TitledescriptionGreen";
+import { TitleDescriptionRed } from "@/components/layout/TitleDescriptionRed";
 
 export default function Calendar() {
   const { events, addEvent, editEvent, removeEvent, loading } = useEvents();
@@ -97,16 +99,17 @@ export default function Calendar() {
           }}
         />
 
-        <p className="text-xl font-bold text-gray-800"> Data {invertDate(selectedDate)}</p>
-
         {loading ? (
           <LoadingCard />
         ) : (
           <>
             {selectedDate && reservationDay.length === 0 && (
-              <ReservationEmpty
-                setIsOpen={setIsOpen}
-              />
+              <><TitleDescriptionGreen title={`Data ${invertDate(selectedDate)}`} /><ReservationEmpty
+                setIsOpen={setIsOpen} /></>
+            )}
+
+            {selectedDate && !(reservationDay.length === 0) && (
+              <TitleDescriptionRed title={`Data ${invertDate(selectedDate)}`} />
             )}
 
             <ReservationList
