@@ -72,7 +72,7 @@ export default function DialogCalendar({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="[&>button]:hidden">
+      <DialogContent className="[&>button]:hidden pb-safe px-4">
         <DialogHeader>
           <DialogTitle>{textTitle}</DialogTitle>
         </DialogHeader>
@@ -143,9 +143,9 @@ export default function DialogCalendar({
 
           </div>
 
-          <StatusCheckbox value={formData.status}  onChange={(e) => {
-                setFormData({ ...formData, status: e ?? "" });
-              }} />
+          <StatusCheckbox value={formData.status} onChange={(e) => {
+            setFormData({ ...formData, status: e ?? "" });
+          }} />
 
           <div className="space-y-2">
             <label className="text-sm font-medium">Anotação</label>
@@ -159,7 +159,7 @@ export default function DialogCalendar({
             />
           </div>
 
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-end gap-2 pt-4 pb-8">
             <Button style={{ backgroundColor: "var(--color-secondary)", color: "#ffffff", }} variant="destructive" type="button" onClick={() => setOpen(false)}>
               Cancelar
             </Button>
