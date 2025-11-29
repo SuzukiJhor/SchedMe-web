@@ -72,7 +72,7 @@ export default function DialogCalendar({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="[&>button]:hidden pb-safe px-4">
+      <DialogContent className="[&>button]:hidden px-4 max-h-[85vh] overflow-y-auto pb-safe">
         <DialogHeader>
           <DialogTitle>{textTitle}</DialogTitle>
         </DialogHeader>
