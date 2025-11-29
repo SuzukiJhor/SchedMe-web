@@ -13,8 +13,8 @@ export function TitleDescriptionRed({
                 padding: "8px 14px",
                 borderRadius: "8px",
                 fontWeight: "bold",
-            }}  className="p-3 flex items-center gap-2">
-                 <AlertCircle className="w-5 h-5" />
+            }} className="p-3 flex items-center gap-2">
+                <AlertCircle className="w-5 h-5" />
                 <span>{title}</span>
             </h2>
         </>

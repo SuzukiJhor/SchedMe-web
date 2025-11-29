@@ -109,18 +109,19 @@ export default function Calendar() {
             )}
 
             {selectedDate && !(reservationDay.length === 0) && (
-              <TitleDescriptionRed title={`Data ${invertDate(selectedDate)}`} />
+              <>
+                <TitleDescriptionRed title={`Data ${invertDate(selectedDate)}`} />
+                <ReservationList
+                  reservationDay={reservationDay}
+                  paginatedReservations={paginatedReservations}
+                  totalPages={totalPages}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                />
+              </>
             )}
-
-            <ReservationList
-              reservationDay={reservationDay}
-              paginatedReservations={paginatedReservations}
-              totalPages={totalPages}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-            />
           </>
         )}
 
