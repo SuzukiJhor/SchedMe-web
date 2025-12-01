@@ -1,4 +1,3 @@
-import { AlertCircle } from "lucide-react";
 import { getTodayISO, getTodayEvent, hasEventToday } from "@/lib/utils";
 import { Button } from "../ui/button";
 import DialogCalendar from "./DialogCalendar";
