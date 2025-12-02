@@ -83,14 +83,22 @@ export default function Dashboard() {
 
   return (
     <Card className="p-4 space-y-6">
-     
-      <p className="text-xl font-bold text-gray-800">
-        Bem vindo {nameUser}!
-      </p>
+      <div className="flex flex-col justify-center items-center gap-2">
+         <img
+          src="/images/logo-2.png"
+          alt="MarcaLa Logo"
+          height={40}
+          width={120}
+        />
+        <p className="text-xl font-bold text-gray-800">
+          Bem vindo {nameUser}!
+        </p>
+      </div>
+
 
       {!eventScheduledToday && (
         <>
-        <TitleDescriptionRed title={"Hoje AINDA não tem reservas!"}/>
+          <TitleDescriptionRed title={"Hoje AINDA não tem reservas!"} />
           <ButtonPrimary
             title="+ Nova Reserva"
             setIsOpen={setIsOpen}
