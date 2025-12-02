@@ -7,6 +7,7 @@ import type { UserData } from "../type";
 import { useUsers } from "@/hooks/useUsers";
 import { firstOrNotLogin } from "@/services/agendaService";
 import { maskPhone } from "@/lib/utils";
+import type { RegisterForm } from "./type";
 
 export function Register() {
     const { user } = useUser();
@@ -16,7 +17,7 @@ export function Register() {
     const emailUser = user?.primaryEmailAddress?.emailAddress ?? "";
     const clerkId = user?.id ?? "";
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<RegisterForm>({
         name: nameUser,
         email: emailUser,
         whatsapp: "",

@@ -8,7 +8,7 @@ export default function Customers() {
     <div>
       <Card className="p-4">
 
-        <p className="text-2xl font-bold text-gray-800 mb-4">
+        <p className="text-2xl font-bold text-gray-700 mb-4">
           Lista de clientes cadastrados
         </p>
 

@@ -17,9 +17,10 @@ export function useEvents() {
     }
 
     async function addEvent(payload: EventData) {
+        setLoading(true);
         const newEvent = await createEvent(payload);
         setEvents(prev => [...prev, newEvent]);
-        await loadEvents();
+        setLoading(false);
         return newEvent;
     }
 

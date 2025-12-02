@@ -1,16 +1,25 @@
 import { useState } from "react";
 import { Calendar } from "lucide-react";
+import type { EventData } from "../type";
+import { useUser } from "@clerk/clerk-react";
+import { useEvents } from "@/hooks/useEvents";
+import toast, { Toaster } from 'react-hot-toast';
 import { Card, CardContent } from "@/components/ui/card";
-import { formatDateBr, getTodayDateObj, getTodayISO, hasEventToday, invertDate, normalizeDate, toLocalDate } from "@/lib/utils";
-import DialogCalendar from "@/components/layout/DialogCalendar";
-import LoadingCard from "@/components/layout/ReservationLoading";
 import DashboardList from "@/components/layout/DashboardList";
 import ButtonPrimary from "@/components/layout/ButtonPrimary";
-import type { EventData } from "../type";
-import { useEvents } from "@/hooks/useEvents";
+import DialogCalendar from "@/components/layout/DialogCalendar";
+import LoadingCard from "@/components/layout/ReservationLoading";
 import { TodayEventAlert } from "@/components/layout/TodatEventAlert";
-import { useUser } from "@clerk/clerk-react";
 import { TitleDescriptionRed } from "@/components/layout/TitleDescriptionRed";
+import { formatDateBr, getTodayDateObj, getTodayISO, hasEventToday, invertDate, normalizeDate, toLocalDate } from "@/lib/utils";
+
+const styleConfigureToast = {
+  style: {
+    borderRadius: '10px',
+    background: '#333',
+    color: '#fff',
+  }
+};
 
 export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +29,7 @@ export default function Dashboard() {
   const { events, addEvent, editEvent, loading } = useEvents();
   const { user } = useUser();
 
-  const nameUser = user?.firstName ? user.firstName : "";
+  const nameUser = user?.firstName ? user.firstName : "Amigo";
 
   async function selectClickedDay(day: string) {
     const sanitizeDate = normalizeDate(day);
@@ -67,11 +76,33 @@ export default function Dashboard() {
   }
 
   async function newReservation(event: EventData) {
-    await addEvent(event);
-    setIsOpen(false);
+    await toast.promise(
+      addEvent(event),
+      {
+        loading: 'Enviando dados da reserva...',
+        success: 'Reserva criada com Sucesso!',
+        error: (err) => err.message || 'Erro ao criar a reserva. Verifique a conexão.',
+      },
+      {
+        style: styleConfigureToast.style,
+      }
+    ).finally(() => {
+      setIsOpen(false);
+    });
   }
 
   async function EditReservation(event: EventData) {
+    await toast.promise(
+      editEvent(Number(event.id), event),
+      {
+        loading: 'Atualizando dados da reserva...',
+        success: 'Reserva atualizada com Sucesso!',
+        error: (err) => err.message || 'Erro ao atualizar a reserva. Verifique a conexão.',
+      },
+      {
+        style: styleConfigureToast.style,
+      }
+    );
     const { id } = event;
     await editEvent(Number(id), event);
     setIsOpenEventToday(false);
@@ -83,14 +114,18 @@ export default function Dashboard() {
 
   return (
     <Card className="p-4 space-y-6">
+      <Toaster
+        position="bottom-center"
+        reverseOrder={true}
+      />
       <div className="flex flex-col justify-center items-center gap-2">
-         <img
+        <img
           src="/images/logo-2.png"
           alt="MarcaLa Logo"
           height={40}
           width={120}
         />
-        <p className="text-xl font-bold text-gray-800">
+        <p className="text-xl font-bold text-gray-700">
           Bem vindo {nameUser}!
         </p>
       </div>
