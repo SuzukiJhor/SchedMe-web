@@ -146,6 +146,7 @@ export default function Calendar() {
           }}
           textTitle="Editar reserva"
         />
-      </Card></>
+      </Card>
+    </>
   );
 }
