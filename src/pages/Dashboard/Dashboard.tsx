@@ -95,7 +95,6 @@ export default function Dashboard() {
         </p>
       </div>
 
-
       {!eventScheduledToday && (
         <>
           <TitleDescriptionRed title={"Hoje AINDA não tem reservas!"} />
@@ -104,7 +103,6 @@ export default function Dashboard() {
             setIsOpen={setIsOpen}
           />
         </>
-
       )}
 
       <CardContent className="flex items-center justify-between">

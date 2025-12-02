@@ -6,7 +6,6 @@ import { Table, TableBody, TableHead, TableHeader, TableCell, TableRow } from "@
 export default function Customers() {
   return (
     <div>
-
       <Card className="p-4">
 
         <p className="text-2xl font-bold text-gray-800 mb-4">
