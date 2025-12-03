@@ -1,8 +1,10 @@
+import { useMobileOnly } from "@/hooks/useMobileOnly";
 import BottomNav from "./BottomNav";
 import Header from "./Header";
 import RequireAuth from "./RequireAuth";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  useMobileOnly();
   return (
     <RequireAuth>
       <div className="flex flex-col min-h-screen w-full bg-gray-50">
