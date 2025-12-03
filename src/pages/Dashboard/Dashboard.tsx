@@ -11,15 +11,7 @@ import DialogCalendar from "@/components/layout/DialogCalendar";
 import LoadingCard from "@/components/layout/ReservationLoading";
 import { TodayEventAlert } from "@/components/layout/TodatEventAlert";
 import { TitleDescriptionRed } from "@/components/layout/TitleDescriptionRed";
-import { formatDateBr, getTodayDateObj, getTodayISO, hasEventToday, invertDate, normalizeDate, toLocalDate } from "@/lib/utils";
-
-const styleConfigureToast = {
-  style: {
-    borderRadius: '10px',
-    background: '#333',
-    color: '#fff',
-  }
-};
+import { formatDateBr, getTodayDateObj, getTodayISO, hasEventToday, invertDate, normalizeDate, styleConfigureToast, toLocalDate } from "@/lib/utils";
 
 export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +20,6 @@ export default function Dashboard() {
   const [eventClickedDay, seteventClickedDay] = useState<EventData>();
   const { events, addEvent, editEvent, loading } = useEvents();
   const { user } = useUser();
-
   const nameUser = user?.firstName ? user.firstName : "Amigo";
 
   async function selectClickedDay(day: string) {
@@ -190,7 +181,6 @@ export default function Dashboard() {
         event={null}
         callBack={(Event) => {
           newReservation(Event);
-          setIsOpen(false);
         }}
         textTitle="Nova Reserva"
       />

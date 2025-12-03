@@ -1,21 +1,23 @@
 import { useState } from "react";
+import Swal from 'sweetalert2';
+import type { EventData } from "../type";
 import { Card } from "@/components/ui/card";
+import { useEvents } from "@/hooks/useEvents";
 import FullCalendar from "@fullcalendar/react";
+import toast, { Toaster } from "react-hot-toast";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import DialogCalendar from "@/components/layout/DialogCalendar";
-import { formatToISO, getTodayISO, invertDate } from "@/lib/utils";
+import LoadingCard from "@/components/layout/ReservationLoading";
+import { formatToISO, getTodayISO, invertDate, styleConfigureToast } from "@/lib/utils";
 import { ReservationList } from "@/components/layout/ReservationList";
 import { ReservationEmpty } from "@/components/layout/ReservationEmpty";
-import type { EventData } from "../type";
-import LoadingCard from "@/components/layout/ReservationLoading";
-import { useEvents } from "@/hooks/useEvents";
-import { TitleDescriptionGreen } from "@/components/layout/TitledescriptionGreen";
 import { TitleDescriptionRed } from "@/components/layout/TitleDescriptionRed";
+import { TitleDescriptionGreen } from "@/components/layout/TitledescriptionGreen";
 
 export default function Calendar() {
-  const { events, addEvent, editEvent, removeEvent, loading } = useEvents();
+  const { events, addEvent, editEvent, removeEvent, reloadEvents, loading } = useEvents();
   const [selectedDate, setSelectedDate] = useState<string>(getTodayISO());
   const [isOpen, setIsOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<EventData | null>(null);
@@ -30,16 +32,58 @@ export default function Calendar() {
 
   async function handleDelete(id: string | null) {
     if (!id) return;
-    await removeEvent(Number(id));
+    const result = await Swal.fire({
+      title: 'Tem certeza?',
+      text: "Você não poderá reverter esta exclusão!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sim, Deletar!',
+      cancelButtonText: 'Cancelar'
+    });
+    if (result.isConfirmed) {
+      try {
+        await removeEvent(Number(id));
+        toast.success('Reserva removida com sucesso!');
+      } catch (error) {
+        console.error("Erro ao remover evento:", error);
+        toast.error('Erro ao remover a reserva. Tente novamente.');
+      }
+    }
   }
 
   async function submitSave(event: EventData) {
-    await addEvent(event);
-    setIsOpen(false);
+    await toast.promise(
+      addEvent(event),
+      {
+        loading: 'Enviando dados da reserva...',
+        success: 'Reserva criada com Sucesso!',
+        error: (err) => err.message || 'Erro ao criar a reserva. Verifique a conexão.',
+      },
+      {
+        style: styleConfigureToast.style,
+      }
+    ).finally(() => {
+      setIsOpen(false);
+    });
+
+    await reloadEvents();
   }
 
   async function submitEdit(event: EventData) {
     const { id } = event;
+    await toast.promise(
+      editEvent(Number(id), event),
+      {
+        loading: 'Atualizando dados da reserva...',
+        success: 'Reserva atualizada com Sucesso!',
+        error: (err) => err.message || 'Erro ao atualizar a reserva. Verifique a conexão.',
+      },
+      {
+        style: styleConfigureToast.style,
+      }
+    );
     await editEvent(Number(id), event);
     setIsEditOpen(false);
   }
@@ -68,6 +112,10 @@ export default function Calendar() {
   return (
     <>
       <Card className="p-4" >
+        <Toaster
+          position="bottom-center"
+          reverseOrder={true}
+        />
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
